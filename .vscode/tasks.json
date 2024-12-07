@@ -1,0 +1,47 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "npm: dev",
+      "type": "npm",
+      "script": "dev",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "isBackground": true,
+      "options": {},
+      "problemMatcher": [
+        {
+          "pattern": {
+            "regexp": "(.*?)"
+          },
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "(.*?)",
+            "endsPattern": "Local:\\s+https?://localhost:([0-9]+)/?"
+          }
+        },
+        {
+          "owner": "typescript",
+          "source": "ts",
+          "applyTo": "allDocuments",
+          "fileLocation": [
+            "relative",
+            "${cwd}"
+          ],
+          "pattern": "$tsc",
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": {
+              "regexp": "(.*?)"
+            },
+            "endsPattern": {
+              "regexp": "Compiled|Failed to compile."
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
