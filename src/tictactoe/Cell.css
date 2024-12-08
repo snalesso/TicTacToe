@@ -1,0 +1,32 @@
+/* button::before {
+  content: "\00a0";
+} */
+.cell {
+  margin: unset;
+  padding: unset;
+
+  background-color: #202020;
+  border-radius: 3px;
+  border: 1px solid black;
+
+  cursor: pointer;
+
+  font-size: 1rem;
+  font-weight: 500;
+}
+.cell:hover {
+  border-color: #646cff;
+}
+
+.cell-top-left {
+  border-top-left-radius: 3px;
+}
+.cell-top-right {
+  border-top-right-radius: 3px;
+}
+.cell-bottom-right {
+  border-bottom-right-radius: 3px;
+}
+.cell-bottom-left {
+  border-bottom-left-radius: 3px;
+}
