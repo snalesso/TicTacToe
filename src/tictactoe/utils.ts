@@ -64,6 +64,14 @@ export function calcWinningDiagonals(size: Rectangle, length: number): readonly 
   return lines;
 }
 
-export function get2DCell<T>(cells: readonly (readonly T[])[], coord: Vector2D): T {
+export function get2dCell<T>(cells: readonly (readonly T[])[], coord: Vector2D): T {
   return cells[coord.x][coord.y];
+}
+
+export function get2dCells<T>(cells: readonly (readonly T[])[], line: readonly Vector2D[]): readonly T[] {
+  const values: T[] = [];
+  for (const cellCoords of line) {
+    values.push(cells[cellCoords.x][cellCoords.y]);
+  }
+  return values;
 }

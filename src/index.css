@@ -24,6 +24,10 @@
   flex-flow: row nowrap;
 }
 
+.d-flex-wrap {
+  flex-wrap: wrap;
+}
+
 .d-flex-exp {
   flex-grow: 1;
 }
