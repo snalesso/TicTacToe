@@ -44,3 +44,16 @@ export class Vector2D {
 
   public toString() { return `(${this.x},${this.y})`; }
 }
+
+export type PointsSeq = readonly Vector2D[];
+
+export function createMatrix<T>(size: Rectangle, calcValue: (coord: Vector2D) => T): (readonly (readonly T[])[]) {
+  const cells = Array(size.width).fill(undefined).map((_, x) => {
+    const rows = Array(size.height).fill(undefined).map((_, y) => {
+      const cell = calcValue(new Vector2D(x, y));
+      return cell;
+    });
+    return rows;
+  });
+  return cells;
+}

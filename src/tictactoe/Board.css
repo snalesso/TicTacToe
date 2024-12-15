@@ -1,3 +1,36 @@
 .board-row {
   display: flex;
 }
+
+.board {
+  /* gap: 1px; */
+  .row {
+    /* gap: 1px; */
+    /* 1st row */
+    &:first-child {
+      .cell {
+        /* 1st cell */
+        &:first-child {
+          border-top-left-radius: 3px;
+        }
+        /* last cell */
+        &:last-child {
+          border-top-right-radius: 3px;
+        }
+      }
+    }
+    /* last row */
+    &:last-child {
+      .cell {
+        /* 1st cell */
+        &:first-child {
+          border-bottom-left-radius: 3px;
+        }
+        /* last cell */
+        &:last-child {
+          border-bottom-right-radius: 3px;
+        }
+      }
+    }
+  }
+}

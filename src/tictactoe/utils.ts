@@ -1,6 +1,6 @@
-import { Rectangle, Vector2D } from "../core/Geometry";
+import { Line, Rectangle, Vector2D } from "../core/Geometry";
 
-export function createLine(start: Vector2D, end: Vector2D): readonly Vector2D[] {
+export function createLine(start: Vector2D, end: Vector2D): Line {
   const xDelta = end.x - start.x;
   const yDelta = end.y - start.y;
   if (Math.abs(xDelta) !== Math.abs(yDelta) && xDelta !== 0 && yDelta !== 0)
@@ -9,13 +9,13 @@ export function createLine(start: Vector2D, end: Vector2D): readonly Vector2D[] 
   const xDir = Math.sign(xDelta);
   const yDir = Math.sign(yDelta);
   const points = Array(steps).fill(undefined).map((_, i) => new Vector2D(start.x + i * xDir, start.y + i * yDir));
-  return points;
+  return new Line(points);
 }
 
-export function calcWinningCols(size: Rectangle, length: number): readonly (readonly Vector2D[])[] {
+export function calcWinningCols(size: Rectangle, length: number): readonly Line[] {
   if (size.width <= 0 || size.height <= 0)
     throw new Error('Invalid size.');
-  const lines: (readonly Vector2D[])[] = []
+  const lines: Line[] = []
   for (let x = 0; x < size.width; x++) {
     for (let y = 0; y < size.height; y++) {
       const lastCellY = y + length - 1;
@@ -27,10 +27,10 @@ export function calcWinningCols(size: Rectangle, length: number): readonly (read
   }
   return lines;
 }
-export function calcWinningRows(size: Rectangle, length: number): readonly (readonly Vector2D[])[] {
+export function calcWinningRows(size: Rectangle, length: number): readonly Line[] {
   if (size.width <= 0 || size.height <= 0)
     throw new Error('Invalid size.');
-  const lines: (readonly Vector2D[])[] = []
+  const lines: Line[] = []
   for (let y = 0; y < size.height; y++) {
     for (let x = 0; x < size.width; x++) {
       const lastCellX = x + length - 1;
@@ -42,10 +42,10 @@ export function calcWinningRows(size: Rectangle, length: number): readonly (read
   }
   return lines;
 }
-export function calcWinningDiagonals(size: Rectangle, length: number): readonly (readonly Vector2D[])[] {
+export function calcWinningDiagonals(size: Rectangle, length: number): readonly Line[] {
   if (size.width <= 0 || size.height <= 0)
     throw new Error('Invalid size.');
-  const lines: (readonly Vector2D[])[] = [];
+  const lines: Line[] = [];
   const lastLineIndex = length - 1;
   for (let y = 0; y < size.height; y++) {
     for (let x = 0; x < size.width; x++) {
@@ -68,10 +68,10 @@ export function get2dCell<T>(cells: readonly (readonly T[])[], coord: Vector2D):
   return cells[coord.x][coord.y];
 }
 
-export function get2dCells<T>(cells: readonly (readonly T[])[], line: readonly Vector2D[]): readonly T[] {
+export function get2dCells<T>(cells: readonly (readonly T[])[], line: Line): readonly T[] {
   const values: T[] = [];
-  for (const cellCoords of line) {
-    values.push(cells[cellCoords.x][cellCoords.y]);
+  for (const point of line.points) {
+    values.push(cells[point.x][point.y]);
   }
   return values;
 }

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Rectangle, Square, Vector2D } from "../core/Geometry";
+import { useEffect, useState } from "react";
+import { createMatrix, Line, Rectangle, Square, Vector2D } from "../core/Geometry";
 import "./Board.css";
 import Cell from "./Cell";
 import { calcWinningCols, calcWinningDiagonals, calcWinningRows, get2dCell, get2dCells } from "./utils";
@@ -18,21 +18,14 @@ export interface IBoardConfig<T> {
   readonly winningLineLength: number;
 }
 
-export function createMatrix<T>(size: Rectangle, cellInit: (coord: Vector2D) => T): (readonly (readonly T[])[]) {
-  const cells = Array(size.width).fill(undefined).map((_, x) => {
-    const rows = Array(size.height).fill(undefined).map((_, y) => {
-      const cell = cellInit(new Vector2D(x, y));
-      return cell;
-    });
-    return rows;
-  });
-  return cells;
-}
-
 export default function Board<T>(config: IBoardConfig<T>) {
 
   const [currPlayerCode, setcurrPlayerCode] = config.players == null ? [null, () => { }] : useState(config.players?.initial);
+  const [winningLine, setWinningLine] = useState<Line | null>(null);
   const [isMatchFinished, setIsMatchFinished] = useState(config.players == null);
+  useEffect(() => {
+    setIsMatchFinished(winningLine != null)
+  }, [winningLine]);
   const initialBoardCells = createMatrix(
     config.size,
     coord => config.cells == null ? null : get2dCell(config.cells, coord));
@@ -58,7 +51,8 @@ export default function Board<T>(config: IBoardConfig<T>) {
       const values = new Set(get2dCells(newCells, winningLine));
       if (values.size !== 1 || values.has(null))
         continue;
-      setIsMatchFinished(true);
+      setWinningLine(winningLine);
+      // setIsMatchFinished(true);
       break;
     }
     if (isMatchFinished)
@@ -70,15 +64,25 @@ export default function Board<T>(config: IBoardConfig<T>) {
   const rows = cells.map((colCells, x) => {
     const rowCells = colCells.map((rowCell, y) => {
       const cellCoords = new Vector2D(x, y);
-      return <Cell key={cellCoords.toString()} value={rowCell} onClick={() => handleSquareClick(cellCoords)} size={config.cellSize} />;
+      const [isWinning, setIsWinning] = useState(winningLine?.includes(cellCoords) ?? false);
+      useEffect(() => {
+        const iw = winningLine?.includes(cellCoords) ?? false;
+        setIsWinning(iw);
+      }, [winningLine, cells]);
+      return <Cell key={cellCoords.toString()}
+        value={rowCell}
+        onClick={() => handleSquareClick(cellCoords)}
+        size={config.cellSize}
+        isWinning={isWinning}
+        isLocked={winningLine != null}
+      />;
     });
     return <div key={x} className="row">{rowCells}</div>;
   });
 
   return (
-    <div className="col">
+    <div className="col board">
       {rows}
     </div>
-  );
+  )
 }
-

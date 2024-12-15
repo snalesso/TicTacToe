@@ -1,7 +1,7 @@
-import { Square } from "../core/Geometry";
-import Board, { createMatrix } from "./Board";
+import { createMatrix, Square } from "../core/Geometry";
+import Board from "./Board";
+import { DEFAULT_WINNING_LINE_LENGTH } from "./Configs";
 import { PlayerCode } from "./PlayerCode";
-import { DEFAULT_WINNING_LINE_LENGTH } from "./TicTacToe";
 import { calcWinningCols, calcWinningDiagonals, calcWinningRows } from "./utils";
 
 export default function WinningBoards(config: { readonly size: Square; readonly length: number }) {
@@ -12,7 +12,7 @@ export default function WinningBoards(config: { readonly size: Square; readonly 
   ];
   const boards = winningLines.map((line, i) => {
     const cells = createMatrix(config.size, coord => {
-      if (line.some(p => p.equals(coord)))
+      if (line.includes(coord))
         return PlayerCode.Tick;
       return null;
     });
@@ -24,10 +24,8 @@ export default function WinningBoards(config: { readonly size: Square; readonly 
   });
 
   return (
-    <>
-      <div className="row d-flex-wrap gap-3">
-        {boards}
-      </div>
-    </>
-  );
+    <div className="row d-flex-wrap gap-3">
+      {boards}
+    </div>
+  )
 }

@@ -1,11 +1,7 @@
-import { Square } from "../core/Geometry";
 import Board, { IBoardPlayers } from "./Board";
+import { DEFAULT_BOARD_SIZE, DEFAULT_WINNING_LINE_LENGTH } from "./Configs";
 import { PlayerCode } from "./PlayerCode";
 import WinningBoards from "./WinningBoards";
-
-export const DEFAULT_BOARD_SIDE_LENGTH = 3;
-export const DEFAULT_BOARD_SIZE = new Square(DEFAULT_BOARD_SIDE_LENGTH);
-export const DEFAULT_WINNING_LINE_LENGTH = DEFAULT_BOARD_SIDE_LENGTH;
 
 export default function TicTacToe() {
   const playerCodeSeq = [PlayerCode.CircleYellow, PlayerCode.CircleBlue];
