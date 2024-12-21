@@ -1,0 +1,17 @@
+.player {
+
+  font-size: 1.5rem;
+  padding: 0.5rem;
+
+  background-color: rgb(24, 24, 24);
+  border: 1px solid black;
+  border-radius: 3px;
+
+  align-content: center;
+  text-align: center;
+
+  &.active {
+    border-color: #999;
+    border-style: dashed;
+  }
+}

@@ -1,24 +1,30 @@
-import Board, { IBoardPlayers } from "./Board";
-import { DEFAULT_BOARD_SIZE, DEFAULT_WINNING_LINE_LENGTH } from "./Configs";
+import { Matrix2d } from "../core/Algebra";
+import { BoardConfig } from "./Board";
+import { DEFAULT_BOARD_SIZE, DEFAULT_WINNING_LINE_LENGTH } from "./Defaults";
+import Match, { MatchPlayersConfig } from "./Match";
 import { PlayerCode } from "./PlayerCode";
 import WinningBoards from "./WinningBoards";
 
 export default function TicTacToe() {
-  const playerCodeSeq = [PlayerCode.CircleYellow, PlayerCode.CircleBlue];
-  let currPlayerCode = playerCodeSeq[0];
-  const players: IBoardPlayers<PlayerCode> = {
-    initial: currPlayerCode,
-    getCurr: () => currPlayerCode,
-    advance: () => {
-      const idx = playerCodeSeq.indexOf(currPlayerCode);
-      currPlayerCode = playerCodeSeq[(idx + 1) % playerCodeSeq.length];
-      return currPlayerCode;
-    },
+  const players: MatchPlayersConfig = {
+    left: PlayerCode.CircleYellow,
+    right: PlayerCode.CircleBlue,
   }
+  const boardConfig: BoardConfig<PlayerCode | null> = {
+    size: DEFAULT_BOARD_SIZE,
+    matrix: new Matrix2d(DEFAULT_BOARD_SIZE.width, DEFAULT_BOARD_SIZE.height, () => null),
+  };
   return (
-    <div className="col gap-3">
-      <Board size={DEFAULT_BOARD_SIZE} players={players} winningLineLength={DEFAULT_WINNING_LINE_LENGTH} />
-      <WinningBoards size={DEFAULT_BOARD_SIZE} length={DEFAULT_WINNING_LINE_LENGTH}></WinningBoards>
+    <div className='col gap-3'>
+      <Match
+        players={players}
+        board={boardConfig}
+        winningLineLength={DEFAULT_WINNING_LINE_LENGTH}
+      />
+      <WinningBoards
+        size={DEFAULT_BOARD_SIZE}
+        length={DEFAULT_WINNING_LINE_LENGTH}
+      />
     </div>
   )
 }

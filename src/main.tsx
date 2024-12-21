@@ -1,10 +1,11 @@
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './main.css'
+import { createRoot } from 'react-dom/client';
+import App from './App.tsx';
+import { inlineThrow } from './core/utils.ts';
+import './main.scss';
 
-createRoot(document.getElementById('root')!).render(
+const root = document.getElementById('root') ?? inlineThrow(() => new Error(`Root element not found.`));
+createRoot(root).render(
   // <StrictMode>
   <App />
   // </StrictMode>
-  ,
-)
+);

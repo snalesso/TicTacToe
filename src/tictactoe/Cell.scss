@@ -2,6 +2,9 @@
   content: "\00a0";
 } */
 .cell {
+  height: 48px;
+  width: 48px;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,26 +14,30 @@
   font-size: 1rem;
   font-weight: 500;
 
-  background-color: rgb(48, 48, 48);
+  background-color: rgb(56, 56, 56);
   border-color: #000;
   border-style: solid;
   border-width: 1px;
 
-  &:hover {
-    background-color: rgb(60, 60, 60);
-    border-color: #090909;
+  &.locked {
+    cursor: default;
+  }
+
+  &:not(.locked) {
+
+    &:hover {
+      background-color: rgb(72, 72, 72);
+      border-color: #090909;
+    }
   }
 
   &.winning {
     background-color: rgb(0, 145, 0);
     border-color: rgb(69, 219, 0);
+
     &:hover {
       background-color: rgb(0, 165, 0);
       border-color: rgb(75, 236, 0);
     }
-  }
-
-  &.locked {
-    cursor: default;
   }
 }

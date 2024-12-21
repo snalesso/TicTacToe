@@ -1,0 +1,17 @@
+.match {
+  // layout
+  display: flex;
+  flex: 1 1 100%;
+  padding: 1rem;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  justify-items: center;
+  // border
+  border-radius: 3px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  gap: 1rem;
+  background-color: #222;
+}
