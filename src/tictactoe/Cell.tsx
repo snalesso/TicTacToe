@@ -1,4 +1,3 @@
-import { condPush } from '../core/Array.utils';
 import './Cell.scss';
 
 export type BoardCellConfig<T> = {
@@ -15,8 +14,8 @@ export default function Cell<T>(config: BoardCellConfig<T>) {
       ? config.value
       : JSON.stringify(config.value);
   const classes: string[] = ['cell'];
-  condPush(classes, config.isWinning, 'winning');
-  condPush(classes, config.isLocked, 'locked');
+  config.isWinning && classes.push('winning');
+  config.isLocked && classes.push('locked');
   const classesStr = classes.join(' ');
   return (
     <div className={classesStr} onClick={config.onClick}>

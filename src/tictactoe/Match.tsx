@@ -11,11 +11,8 @@ import { calcWinningLines } from "./utils";
 export type MatchCellValue = PlayerCode | null;
 
 export type MatchPlayersConfig = {
-  // readonly all: readonly T[];
   readonly left: PlayerCode;
   readonly right: PlayerCode;
-  // readonly advance: () => T;
-  // readonly getCurr: () => T;
 }
 export type MatchBoardConfig = Readonly<Pick<BoardConfig<MatchCellValue>, 'size'>>;
 
@@ -26,7 +23,7 @@ export type MatchConfig = {
 }
 
 export default function Match(config: MatchConfig) {
-
+  const neutralValues: ReadonlySet<MatchCellValue> = new Set<MatchCellValue>([null]);
   const initialMatrix = new Matrix2d<MatchCellValue>(config.board.size.width, config.board.size.height, () => null);
   const [matrix, setMatrix] = useState(initialMatrix);
   const winningLines = calcWinningLines(config.board.size, config.winningLineLength);
@@ -58,7 +55,7 @@ export default function Match(config: MatchConfig) {
     return currPlayerCode === config.players.left ? config.players.right : config.players.left;
   };
   const handleBoardCellValuesChange = (coords: Coorsd2d) => {
-    if (winningLine != null)
+    if (!neutralValues.has(matrix.getValue(coords.x, coords.y)) || winningLine != null)
       return;
     const newCells = matrix.with(coords.x, coords.y, currPlayerCode);
     setMatrix(newCells);;
@@ -72,7 +69,7 @@ export default function Match(config: MatchConfig) {
       />
       <Board
         size={config.board.size}
-        neutralValues={new Set<MatchCellValue>([null])}
+        neutralValues={neutralValues}
         matrix={matrix}
         winningLine={winningLine}
         onCellClicked={handleBoardCellValuesChange}

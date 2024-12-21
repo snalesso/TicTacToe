@@ -26,5 +26,5 @@ export default function TicTacToe() {
         length={DEFAULT_WINNING_LINE_LENGTH}
       />
     </div>
-  )
+  );
 }

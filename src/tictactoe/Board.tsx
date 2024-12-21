@@ -5,8 +5,6 @@ import Cell from "./Cell";
 
 export type BoardConfig<T> = {
   readonly size: Size;
-  // readonly getInitialCellValue: (coords: Coord2d) => T;
-  // readonly matrix: ReadonlyArray<ReadonlyArray<T>>;
   readonly neutralValues?: ReadonlySet<T>;
   readonly matrix: Matrix2d<T>;
   readonly winningLine?: Line | null;

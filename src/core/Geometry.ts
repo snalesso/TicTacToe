@@ -54,12 +54,12 @@ export class Line {
     this.points = [...points];
   }
 
-  public includes(point: Coorsd2d): boolean;
+  public includes(coords: Coorsd2d): boolean;
   public includes(x: number, y: number): boolean;
-  public includes(pointOrX: Coorsd2d | number, y?: number): boolean {
-    const point = pointOrX instanceof Coorsd2d
-      ? pointOrX
-      : new Coorsd2d(pointOrX, y ?? inlineThrow(() => new Error(`Y not defined.`)));
+  public includes(coordsOrX: Coorsd2d | number, y?: number): boolean {
+    const point = coordsOrX instanceof Coorsd2d
+      ? coordsOrX
+      : new Coorsd2d(coordsOrX, y ?? inlineThrow(() => new Error(`Y not defined.`)));
     return this.points.some(p => p.equals(point));
   }
 }
