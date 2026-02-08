@@ -1,10 +1,7 @@
 import { inlineThrow } from "../core/utils";
-import { Vector2d } from "./Algebra";
+import { Vector2D } from "./Algebra";
 
-export class Coorsd2d extends Vector2d {
-  // constructor(x: number, y: number) {
-  //   super(x, y);
-  // }
+export class Coords2D extends Vector2D {
 }
 
 export class Size {
@@ -18,7 +15,7 @@ export class Size {
     this.height = height ?? widthOrSide;
   }
 
-  public contains(coords: Vector2d): boolean {
+  public containsCoords2D(coords: Coords2D): boolean {
     return coords.x >= 0
       && coords.x < this.width
       && coords.y >= 0
@@ -28,11 +25,11 @@ export class Size {
 
 export class Rectangle {
   constructor(
-    public readonly pos: Coorsd2d,
+    public readonly pos: Coords2D,
     public readonly size: Size) {
   }
 
-  public contains(coords: Vector2d): boolean {
+  public containsCoords2D(coords: Coords2D): boolean {
     return coords.x >= this.pos.x
       && coords.x <= (this.pos.x + this.size.width)
       && coords.y >= this.pos.y
@@ -41,25 +38,25 @@ export class Rectangle {
 }
 
 export class Square extends Rectangle {
-  constructor(pos: Coorsd2d, sideLen: number) {
+  constructor(pos: Coords2D, sideLen: number) {
     super(pos, new Size(sideLen, sideLen));
   }
 }
 
 export class Line {
 
-  public readonly points: readonly Coorsd2d[];
+  public readonly points: readonly Coords2D[];
 
-  constructor(points: Iterable<Coorsd2d>) {
+  constructor(points: Iterable<Coords2D>) {
     this.points = [...points];
   }
 
-  public includes(coords: Coorsd2d): boolean;
+  public includes(coords: Coords2D): boolean;
   public includes(x: number, y: number): boolean;
-  public includes(coordsOrX: Coorsd2d | number, y?: number): boolean {
-    const point = coordsOrX instanceof Coorsd2d
+  public includes(coordsOrX: Coords2D | number, y?: number): boolean {
+    const point = coordsOrX instanceof Coords2D
       ? coordsOrX
-      : new Coorsd2d(coordsOrX, y ?? inlineThrow(() => new Error(`Y not defined.`)));
+      : new Coords2D(coordsOrX, y ?? inlineThrow(() => new Error(`Y not defined.`)));
     return this.points.some(p => p.equals(point));
   }
 }

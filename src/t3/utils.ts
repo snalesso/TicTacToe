@@ -1,6 +1,6 @@
-import { Coorsd2d, Line, Size } from "../math/Geometry";
+import { Coords2D, Line, Size } from "../math/Geometry";
 
-export function createLine(start: Coorsd2d, end: Coorsd2d): Line {
+export function createLine(start: Coords2D, end: Coords2D): Line {
   const xDelta = end.x - start.x;
   const yDelta = end.y - start.y;
   if (Math.abs(xDelta) !== Math.abs(yDelta) && xDelta !== 0 && yDelta !== 0)
@@ -8,7 +8,7 @@ export function createLine(start: Coorsd2d, end: Coorsd2d): Line {
   const steps = Math.max(Math.abs(xDelta), Math.abs(yDelta)) + 1;
   const xDir = Math.sign(xDelta);
   const yDir = Math.sign(yDelta);
-  const points = Array(steps).fill(undefined).map((_, i) => new Coorsd2d(start.x + i * xDir, start.y + i * yDir));
+  const points = Array(steps).fill(undefined).map((_, i) => new Coords2D(start.x + i * xDir, start.y + i * yDir));
   return new Line(points);
 }
 
@@ -21,7 +21,7 @@ export function calcWinningCols(size: Size, length: number): readonly Line[] {
       const lastCellY = y + length - 1;
       if (lastCellY >= size.height)
         break;
-      const line = createLine(new Coorsd2d(x, y), new Coorsd2d(x, lastCellY));
+      const line = createLine(new Coords2D(x, y), new Coords2D(x, lastCellY));
       lines.push(line);
     }
   }
@@ -36,7 +36,7 @@ export function calcWinningRows(size: Size, length: number): readonly Line[] {
       const lastCellX = x + length - 1;
       if (lastCellX >= size.width)
         break;
-      const line = createLine(new Coorsd2d(x, y), new Coorsd2d(lastCellX, y));
+      const line = createLine(new Coords2D(x, y), new Coords2D(lastCellX, y));
       lines.push(line);
     }
   }
@@ -49,14 +49,14 @@ export function calcWinningDiagonals(size: Size, length: number): readonly Line[
   const lastLineIndex = length - 1;
   for (let y = 0; y < size.height; y++) {
     for (let x = 0; x < size.width; x++) {
-      const lastUpRightCellCoords = new Coorsd2d(x + lastLineIndex, y - lastLineIndex);
-      if (size.contains(lastUpRightCellCoords)) {
-        const line = createLine(new Coorsd2d(x, y), lastUpRightCellCoords);
+      const lastUpRightCellCoords = new Coords2D(x + lastLineIndex, y - lastLineIndex);
+      if (size.containsCoords2D(lastUpRightCellCoords)) {
+        const line = createLine(new Coords2D(x, y), lastUpRightCellCoords);
         lines.push(line);
       }
-      const lastDownRightCellCoords = new Coorsd2d(x + lastLineIndex, y + lastLineIndex);
-      if (size.contains(lastDownRightCellCoords)) {
-        const line = createLine(new Coorsd2d(x, y), lastDownRightCellCoords);
+      const lastDownRightCellCoords = new Coords2D(x + lastLineIndex, y + lastLineIndex);
+      if (size.containsCoords2D(lastDownRightCellCoords)) {
+        const line = createLine(new Coords2D(x, y), lastDownRightCellCoords);
         lines.push(line);
       }
     }
@@ -72,7 +72,7 @@ export function calcWinningLines(size: Size, length: number) {
   ];
 }
 
-export function get2dCell<T>(cells: readonly (readonly T[])[], coord: Coorsd2d): T {
+export function get2dCell<T>(cells: readonly (readonly T[])[], coord: Coords2D): T {
   return cells[coord.x][coord.y];
 }
 

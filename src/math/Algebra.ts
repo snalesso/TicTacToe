@@ -1,25 +1,25 @@
 
-export class Vector2d {
+export class Vector2D {
   constructor(
     public readonly x: number,
     public readonly y: number
   ) { }
 
-  public equals(coord: Vector2d): boolean;
+  public equals(coord: Vector2D): boolean;
   public equals(x: number, y: number): boolean;
-  public equals(coordOrX: Vector2d | number, y?: number): boolean {
-    if (coordOrX instanceof Vector2d)
+  public equals(coordOrX: Vector2D | number, y?: number): boolean {
+    if (coordOrX instanceof Vector2D)
       return this.x === coordOrX.x && this.y === coordOrX.y;
-    return this.equals(new Vector2d(coordOrX, y ?? coordOrX));
+    return this.equals(new Vector2D(coordOrX, y ?? coordOrX));
   }
 
   public toString() { return `(${this.x},${this.y})`; }
 }
 
-export function createMatrix2d<T>(width: number, height: number, calcValue: (coord: Vector2d) => T): T[][] {
+export function createMatrix2d<T>(width: number, height: number, calcValue: (coord: Vector2D) => T): T[][] {
   const cols = Array(width).fill(undefined).map((_, x) => {
     const rows = Array(height).fill(undefined).map((_, y) => {
-      const cell = calcValue(new Vector2d(x, y));
+      const cell = calcValue(new Vector2D(x, y));
       return cell;
     });
     return rows;

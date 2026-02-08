@@ -1,7 +1,7 @@
 import { useMemo, useReducer, useState } from "react";
 import { useUpdateEffect } from "react-use";
 import { Matrix2d } from "../math/Algebra";
-import { Coorsd2d } from "../math/Geometry";
+import { Coords2D } from "../math/Geometry";
 import ItemsPanel from "../ui/controls/ItemsPanel";
 import Board, { BoardAction, BoardActionCode, BoardConfig } from "./Board";
 import './Match.scss';
@@ -58,7 +58,7 @@ export default function Match(config: MatchConfig) {
       setcurrPlayerCode(calcNextPlayerCode());
     },
     [matrix]);
-  const handleBoardCellValuesChange = (coords: Coorsd2d, value: MatchCellValue) => {
+  const handleBoardCellValuesChange = (coords: Coords2D, value: MatchCellValue) => {
     if (!neutralValues.has(value)
       || winningLine != null)
       return;

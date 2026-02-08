@@ -1,5 +1,5 @@
 import { Matrix2d } from "../math/Algebra";
-import { Coorsd2d, Line, Size } from "../math/Geometry";
+import { Coords2D, Line, Size } from "../math/Geometry";
 import Col from "../ui/controls/Col";
 import Row from "../ui/controls/Row";
 import "./Board.scss";
@@ -10,7 +10,7 @@ export type BoardConfig<T> = {
   readonly neutralValues?: ReadonlySet<T>;
   readonly matrix: Matrix2d<T>;
   readonly winningLine?: Line | null;
-  readonly onCellClicked?: (coords: Coorsd2d, value: T) => void;
+  readonly onCellClicked?: (coords: Coords2D, value: T) => void;
 }
 
 export enum BoardActionCode {
@@ -21,7 +21,7 @@ export enum BoardActionCode {
 export type BoardAction<T> = {
   readonly code: BoardActionCode.SetValue;
   readonly params: {
-    readonly coords: Coorsd2d;
+    readonly coords: Coords2D;
     readonly value: T;
   }
 }
@@ -29,7 +29,7 @@ export type BoardAction<T> = {
 export default function Board<T>(config: BoardConfig<T>) {
   const rows = config.matrix.getCols().map((row, x) => {
     const rowCells = row.map((value, y) => {
-      const cellCoords = new Coorsd2d(x, y);
+      const cellCoords = new Coords2D(x, y);
       const cellKey = cellCoords.toString();
       const isWinning = config.winningLine?.includes(cellCoords) ?? false;
       const isLocked = config.onCellClicked == null
