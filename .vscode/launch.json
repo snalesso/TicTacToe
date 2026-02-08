@@ -7,7 +7,10 @@
       "name": "Launch Chrome against localhost",
       "url": "http://localhost:5173/",
       "webRoot": "${workspaceFolder}",
-      "preLaunchTask": "npm: dev"
+      "preLaunchTask": "npm: dev",
+      "runtimeArgs": [
+        "--auto-open-devtools-for-tabs"
+      ]
     }
   ]
 }
