@@ -1,5 +1,7 @@
 {
-  "name": "tests-react",
+  "name": "tic-tac-toe",
+  "author": "Sergio Nalesso",
+  "repository": "https://github.com/snalesso/TicTacToe.React",
   "private": true,
   "version": "0.0.0",
   "type": "module",
