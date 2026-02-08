@@ -1,16 +1,18 @@
 import './App.scss';
 import Header from './layout/Header';
 import TicTacToe from './tictactoe/TicTacToe';
+import Col from './ui/controls/Col';
+import Row from './ui/controls/Row';
 
 export default function App() {
   return (
-    <div className='col gap-3'>
-      <div className='row w-100'>
+    <Col className='ai-c gap-3'>
+      <Row className='w-100'>
         <Header />
-      </div>
-      <div className='row'>
+      </Row>
+      <Row>
         <TicTacToe />
-      </div>
-    </div>
+      </Row>
+    </Col>
   );
 }

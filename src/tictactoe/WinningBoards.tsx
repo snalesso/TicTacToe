@@ -1,5 +1,7 @@
 import { Matrix2d } from "../core/Algebra";
 import { Size } from "../core/Geometry";
+import Col from "../ui/controls/Col";
+import Row from "../ui/controls/Row";
 import Board from "./Board";
 import { PlayerCode } from "./PlayerCode";
 import { calcWinningLines } from "./utils";
@@ -13,19 +15,19 @@ export default function WinningBoards(config: { readonly size: Size; readonly le
       return null;
     });
     return (
-      <div key={`board-container-${i}`} className='col'>
+      <Col key={`board-container-${i}`}>
         <Board
           key={`board-${i}`}
           size={config.size}
           matrix={matrix}
         />
-      </div>
+      </Col>
     );
   });
 
   return (
-    <div className='row jc-c gap-3'>
+    <Row className='jc-c gap-3'>
       {boards}
-    </div>
+    </Row>
   );
 }

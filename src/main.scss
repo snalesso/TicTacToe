@@ -21,16 +21,20 @@
   height: 100%;
 }
 
-.col {
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
+.flex-col {
+  flex-direction: column;
 }
 
-.row {
+.flex-row {
+  flex-direction: row;
+}
+
+.d-flex {
   display: flex;
-  flex-flow: row wrap;
-  align-items: center;
+}
+
+.d-inline-flex {
+  display: inline-flex;
 }
 
 .d-flex-wrap {
@@ -43,6 +47,10 @@
 
 .jc-c {
   justify-content: center;
+}
+
+.ai-c {
+  align-items: center;
 }
 
 .gap-1 {

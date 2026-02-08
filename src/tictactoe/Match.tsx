@@ -2,6 +2,7 @@ import { useMemo, useReducer, useState } from "react";
 import { useUpdateEffect } from "react-use";
 import { Matrix2d } from "../core/Algebra";
 import { Coorsd2d } from "../core/Geometry";
+import ItemsPanel from "../ui/controls/ItemsPanel";
 import Board, { BoardAction, BoardActionCode, BoardConfig } from "./Board";
 import './Match.scss';
 import Player from "./Player";
@@ -65,7 +66,7 @@ export default function Match(config: MatchConfig) {
   };
 
   return (
-    <div className='match'>
+    <ItemsPanel className='match'>
       <Player
         code={config.players.left}
         isActive={currPlayerCode === config.players.left}
@@ -83,6 +84,6 @@ export default function Match(config: MatchConfig) {
         isActive={currPlayerCode === config.players.right}
         isWinner={winningLine != null && currPlayerCode === config.players.right}
       />
-    </div>
+    </ItemsPanel>
   );
 }

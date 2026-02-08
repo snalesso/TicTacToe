@@ -1,5 +1,7 @@
 import { Matrix2d } from "../core/Algebra";
 import { Coorsd2d, Line, Size } from "../core/Geometry";
+import Col from "../ui/controls/Col";
+import Row from "../ui/controls/Row";
 import "./Board.scss";
 import Cell from "./Cell";
 
@@ -31,29 +33,30 @@ export default function Board<T>(config: BoardConfig<T>) {
       const cellKey = cellCoords.toString();
       const isWinning = config.winningLine?.includes(cellCoords) ?? false;
       const isLocked = config.onCellClicked == null
-        || !(config.neutralValues?.has(value) ?? false)
-        || config.winningLine != null;
+        || config.winningLine != null
+        || !(config.neutralValues?.has(value) ?? false);
       const handleCellClick = () => {
         config.onCellClicked?.(cellCoords, value);
       };
-      return <Cell
-        key={cellKey}
-        value={value}
-        isWinning={isWinning}
-        isLocked={isLocked}
-        onClick={handleCellClick}
-      />;
+      return (
+        <Cell
+          key={cellKey}
+          value={value}
+          isWinning={isWinning}
+          isLocked={isLocked}
+          onClick={handleCellClick}
+        />
+      );
     });
     return (
-      <div key={x} className='row'>
+      <Row key={x} className='row'>
         {rowCells}
-      </div>
+      </Row>
     );
   });
-
   return (
-    <div className='col board'>
+    <Col className='board'>
       {rows}
-    </div>
+    </Col>
   );
 }
