@@ -1,4 +1,4 @@
-import { Size } from "../core/Geometry";
+import { Size } from "../math/Geometry";
 
 export const DEFAULT_CELL_SIDE_LENGTH = 48;
 export const DEFAULT_CELL_SIZE = new Size(DEFAULT_CELL_SIDE_LENGTH);

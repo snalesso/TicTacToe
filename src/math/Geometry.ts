@@ -1,5 +1,5 @@
+import { inlineThrow } from "../core/utils";
 import { Vector2d } from "./Algebra";
-import { inlineThrow } from "./utils";
 
 export class Coorsd2d extends Vector2d {
   // constructor(x: number, y: number) {

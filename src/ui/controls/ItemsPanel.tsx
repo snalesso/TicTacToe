@@ -1,4 +1,4 @@
-import { Orientation } from "../../tictactoe/Orientation";
+import { Orientation } from "../../t3/Orientation";
 import { IHaveChildren } from "../contracts/IHaveChildren";
 import { IHaveClasses } from "../contracts/IHaveClassAttribute";
 import { calcGapClasses, Gap, IHaveGap } from "../contracts/IHaveGap";

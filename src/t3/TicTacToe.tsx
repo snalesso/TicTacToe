@@ -1,4 +1,4 @@
-import { Matrix2d } from "../core/Algebra";
+import { Matrix2d } from "../math/Algebra";
 import Col from "../ui/controls/Col";
 import { BoardConfig } from "./Board";
 import { DEFAULT_BOARD_SIZE, DEFAULT_WINNING_LINE_LENGTH } from "./Defaults";

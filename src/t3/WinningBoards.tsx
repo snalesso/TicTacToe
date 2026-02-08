@@ -1,5 +1,5 @@
-import { Matrix2d } from "../core/Algebra";
-import { Size } from "../core/Geometry";
+import { Matrix2d } from "../math/Algebra";
+import { Size } from "../math/Geometry";
 import Col from "../ui/controls/Col";
 import Row from "../ui/controls/Row";
 import Board from "./Board";

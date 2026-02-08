@@ -1,8 +1,8 @@
+import TicTacToe from '../t3/TicTacToe';
+import Col from '../ui/controls/Col';
+import Row from '../ui/controls/Row';
 import './App.scss';
-import Header from './layout/Header';
-import TicTacToe from './tictactoe/TicTacToe';
-import Col from './ui/controls/Col';
-import Row from './ui/controls/Row';
+import Header from './Header';
 
 export default function App() {
   return (

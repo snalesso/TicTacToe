@@ -1,4 +1,4 @@
-import { Coorsd2d, Line, Size } from "../core/Geometry";
+import { Coorsd2d, Line, Size } from "../math/Geometry";
 
 export function createLine(start: Coorsd2d, end: Coorsd2d): Line {
   const xDelta = end.x - start.x;
