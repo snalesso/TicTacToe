@@ -8,11 +8,23 @@ export type BoardConfig<T> = {
   readonly neutralValues?: ReadonlySet<T>;
   readonly matrix: Matrix2d<T>;
   readonly winningLine?: Line | null;
-  readonly onCellClicked?: (coords: Coorsd2d) => void;
+  readonly onCellClicked?: (coords: Coorsd2d, value: T) => void;
+}
+
+export enum BoardActionCode {
+  SetValue = 1,
+  BoardReset,
+}
+
+export type BoardAction<T> = {
+  readonly code: BoardActionCode.SetValue;
+  readonly params: {
+    readonly coords: Coorsd2d;
+    readonly value: T;
+  }
 }
 
 export default function Board<T>(config: BoardConfig<T>) {
-
   const rows = config.matrix.getCols().map((row, x) => {
     const rowCells = row.map((value, y) => {
       const cellCoords = new Coorsd2d(x, y);
@@ -22,7 +34,7 @@ export default function Board<T>(config: BoardConfig<T>) {
         || !(config.neutralValues?.has(value) ?? false)
         || config.winningLine != null;
       const handleCellClick = () => {
-        config.onCellClicked?.(cellCoords);
+        config.onCellClicked?.(cellCoords, value);
       };
       return <Cell
         key={cellKey}

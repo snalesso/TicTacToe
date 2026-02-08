@@ -14,4 +14,8 @@
     border-color: #999;
     border-style: dashed;
   }
+
+  &.winner {
+    border-color: rgb(69, 219, 0);
+  }
 }

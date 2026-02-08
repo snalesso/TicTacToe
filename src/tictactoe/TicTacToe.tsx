@@ -8,8 +8,8 @@ import WinningBoards from "./WinningBoards";
 export default function TicTacToe() {
   const players: MatchPlayersConfig = {
     left: PlayerCode.CircleYellow,
-    right: PlayerCode.CircleBlue,
-  }
+    right: PlayerCode.CircleOrange,
+  };
   const boardConfig: BoardConfig<PlayerCode | null> = {
     size: DEFAULT_BOARD_SIZE,
     matrix: new Matrix2d(DEFAULT_BOARD_SIZE.width, DEFAULT_BOARD_SIZE.height, () => null),
