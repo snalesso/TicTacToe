@@ -2,15 +2,24 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Debug on Google Chrome",
+      "preLaunchTask": "npm: dev",
       "type": "chrome",
       "request": "launch",
-      "name": "Debug on Google Chrome",
-      "url": "http://localhost:5173/",
+      "url": "http://localhost:5173",
       "webRoot": "${workspaceFolder}",
-      "preLaunchTask": "npm: dev",
+      "sourceMaps": true,
       "runtimeArgs": [
         "--auto-open-devtools-for-tabs"
       ]
+    },
+    {
+      "name": "Debug on Firefox",
+      "preLaunchTask": "npm: dev",
+      "type": "firefox",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}"
     }
   ]
 }

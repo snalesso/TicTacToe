@@ -11,37 +11,21 @@
       },
       "isBackground": true,
       "options": {},
-      "problemMatcher": [
-        {
-          "pattern": {
-            "regexp": "(.*?)"
-          },
-          "background": {
-            "activeOnStart": true,
-            "beginsPattern": "(.*?)",
-            "endsPattern": "Local:\\s+https?://localhost:([0-9]+)/?"
+      "problemMatcher": {
+        "pattern": [
+          {
+            "regexp": ".",
+            "file": 1,
+            "location": 2,
+            "message": 3
           }
-        },
-        {
-          "owner": "typescript",
-          "source": "ts",
-          "applyTo": "allDocuments",
-          "fileLocation": [
-            "relative",
-            "${cwd}"
-          ],
-          "pattern": "$tsc",
-          "background": {
-            "activeOnStart": true,
-            "beginsPattern": {
-              "regexp": "(.*?)"
-            },
-            "endsPattern": {
-              "regexp": "Compiled|Failed to compile."
-            }
-          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "VITE v\\d+.\\d+.\\d+\\s+ready in \\d+ ms",
+          "endsPattern": "Local:"
         }
-      ]
+      }
     }
   ]
 }
