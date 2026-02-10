@@ -26,7 +26,7 @@ export default function WinningBoards(config: { readonly size: Size; readonly le
   });
 
   return (
-    <Row className='jc-c gap-3'>
+    <Row className='jc-c'>
       {boards}
     </Row>
   );

@@ -6,13 +6,15 @@ import Header from './Header';
 
 export default function App() {
   return (
-    <Col className='ai-c gap-3'>
-      <Row className='w-100'>
+    <div className='container-fluid ai-c gap-3'>
+      <Row>
         <Header />
       </Row>
       <Row>
-        <TicTacToe />
+        <Col className='pt-3'>
+          <TicTacToe />
+        </Col>
       </Row>
-    </Col>
+    </div>
   );
 }

@@ -1,0 +1,27 @@
+// Custom.scss
+// Option A: Include all of Bootstrap
+
+// Include any default variable overrides here (though functions won't be available)
+
+// $enable-rounded: true;
+$enable-rfs: false;
+// $enable-deprecation-messages: false;
+
+$blue: #0060b4 !default;
+
+$font-size-root: 9.25pt !default;
+$line-height-base: 1 !default;
+
+// $text-margin-bottom: max(1rem, calc(0.3rem + 0.25em));
+$text-margin-bottom: calc(1rem + 0.125ex) !default;
+
+$headings-line-height: 1 !default;
+$headings-margin-bottom: $text-margin-bottom !default;
+
+$paragraph-margin-bottom: 1em !default;
+
+$border-radius: 3px;
+
+// @use "/node_modules/bootstrap/scss/bootstrap";
+
+// Then add additional custom code here

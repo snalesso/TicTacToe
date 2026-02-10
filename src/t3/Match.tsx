@@ -1,10 +1,12 @@
 import { useMemo, useReducer, useState } from "react";
+import { Button, Card } from "react-bootstrap";
 import { useUpdateEffect } from "react-use";
 import { Matrix2d } from "../math/Algebra";
 import { Coords2D } from "../math/Geometry";
 import ItemsPanel from "../ui/controls/ItemsPanel";
+import { SizeMag } from "../ui/core/Size";
 import Board, { BoardAction, BoardActionCode, BoardConfig } from "./Board";
-import './Match.scss';
+import { Orientation } from "./Orientation";
 import Player from "./Player";
 import { PlayerCode } from "./PlayerCode";
 import { calcWinningLines } from "./utils";
@@ -25,10 +27,16 @@ export type MatchConfig = {
 
 export default function Match(config: MatchConfig) {
   const neutralValues: ReadonlySet<MatchCellValue> = new Set<MatchCellValue>([null]);
-  const initialMatrix = new Matrix2d<MatchCellValue>(config.board.size.width, config.board.size.height, () => null);
+  const createMatrix = () => new Matrix2d<MatchCellValue>(config.board.size.width, config.board.size.height, () => null);
+  const initialMatrix = createMatrix();
   const [currPlayerCode, setcurrPlayerCode] = useState<MatchCellValue>(config.players.left);
   const [matrix, updateMatrix] = useReducer((prev: Matrix2d<MatchCellValue>, action: BoardAction<MatchCellValue>) => {
-    return prev.with(action.params.coords.x, action.params.coords.y, currPlayerCode);
+    switch (action.code) {
+      case BoardActionCode.SetCellValue:
+        return prev.with(action.params.coords.x, action.params.coords.y, currPlayerCode);
+      case BoardActionCode.Reset:
+        return createMatrix();
+    }
   }, initialMatrix);
   const winningLines = useMemo(
     () => {
@@ -62,28 +70,40 @@ export default function Match(config: MatchConfig) {
     if (!neutralValues.has(value)
       || winningLine != null)
       return;
-    updateMatrix({ code: BoardActionCode.SetValue, params: { coords, value } });
+    updateMatrix({ code: BoardActionCode.SetCellValue, params: { coords, value } });
+  };
+  const rematch = () => {
+    updateMatrix({ code: BoardActionCode.Reset });
   };
 
   return (
-    <ItemsPanel className='match'>
-      <Player
-        code={config.players.left}
-        isActive={currPlayerCode === config.players.left}
-        isWinner={winningLine != null && currPlayerCode === config.players.left}
-      />
-      <Board
-        size={config.board.size}
-        neutralValues={neutralValues}
-        matrix={matrix}
-        winningLine={winningLine}
-        onCellClicked={handleBoardCellValuesChange}
-      />
-      <Player
-        code={config.players.right}
-        isActive={currPlayerCode === config.players.right}
-        isWinner={winningLine != null && currPlayerCode === config.players.right}
-      />
-    </ItemsPanel>
+    <Card>
+      <Card.Body>
+        <ItemsPanel orientation={Orientation.Horizontal} gap={SizeMag.SM} className='ai-c'>
+          <Player
+            code={config.players.left}
+            isActive={currPlayerCode === config.players.left}
+            isWinner={winningLine != null && currPlayerCode === config.players.left}
+          />
+          <Board
+            size={config.board.size}
+            neutralValues={neutralValues}
+            matrix={matrix}
+            winningLine={winningLine}
+            onCellClicked={handleBoardCellValuesChange}
+          />
+          <Player
+            code={config.players.right}
+            isActive={currPlayerCode === config.players.right}
+            isWinner={winningLine != null && currPlayerCode === config.players.right}
+          />
+        </ItemsPanel>
+      </Card.Body>
+      <Card.Footer>
+        <ItemsPanel orientation={Orientation.Horizontal} className='justify-content-center'>
+          <Button variant='dark' onClick={rematch}>Rematch</Button>
+        </ItemsPanel>
+      </Card.Footer>
+    </Card>
   );
 }

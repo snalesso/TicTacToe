@@ -1,9 +1,9 @@
 import { Matrix2d } from "../math/Algebra";
 import { Coords2D, Line, Size } from "../math/Geometry";
-import Col from "../ui/controls/Col";
-import Row from "../ui/controls/Row";
+import ItemsPanel from "../ui/controls/ItemsPanel";
 import "./Board.scss";
 import Cell from "./Cell";
+import { Orientation } from "./Orientation";
 
 export type BoardConfig<T> = {
   readonly size: Size;
@@ -14,34 +14,36 @@ export type BoardConfig<T> = {
 }
 
 export enum BoardActionCode {
-  SetValue = 1,
-  BoardReset,
+  SetCellValue = 1,
+  Reset = 2,
 }
 
 export type BoardAction<T> = {
-  readonly code: BoardActionCode.SetValue;
+  readonly code: BoardActionCode.SetCellValue;
   readonly params: {
     readonly coords: Coords2D;
     readonly value: T;
   }
+} | {
+  readonly code: BoardActionCode.Reset;
 }
 
 export default function Board<T>(config: BoardConfig<T>) {
-  const rows = config.matrix.getCols().map((row, x) => {
-    const rowCells = row.map((value, y) => {
-      const cellCoords = new Coords2D(x, y);
+  const rows = config.matrix.getCols().map((row, rowIndex) => {
+    const cells = row.map((cellValue, cellIndex) => {
+      const cellCoords = new Coords2D(rowIndex, cellIndex);
       const cellKey = cellCoords.toString();
       const isWinning = config.winningLine?.includes(cellCoords) ?? false;
       const isLocked = config.onCellClicked == null
         || config.winningLine != null
-        || !(config.neutralValues?.has(value) ?? false);
+        || !(config.neutralValues?.has(cellValue) ?? false);
       const handleCellClick = () => {
-        config.onCellClicked?.(cellCoords, value);
+        config.onCellClicked?.(cellCoords, cellValue);
       };
       return (
         <Cell
           key={cellKey}
-          value={value}
+          value={cellValue}
           isWinning={isWinning}
           isLocked={isLocked}
           onClick={handleCellClick}
@@ -49,14 +51,14 @@ export default function Board<T>(config: BoardConfig<T>) {
       );
     });
     return (
-      <Row key={x} className='row'>
-        {rowCells}
-      </Row>
+      <ItemsPanel key={rowIndex} orientation={Orientation.Horizontal}>
+        {cells}
+      </ItemsPanel>
     );
   });
   return (
-    <Col className='board'>
+    <ItemsPanel orientation={Orientation.Vertical}>
       {rows}
-    </Col>
+    </ItemsPanel>
   );
 }

@@ -1,0 +1,28 @@
+export enum TextColorCode {
+  primary = 'primary',
+  primary_emphasis = 'primary-emphasis',
+  secondary = 'secondary',
+  secondary_emphasis = 'secondary-emphasis',
+  success = 'success',
+  success_emphasis = 'success-emphasis',
+  danger = 'danger',
+  danger_emphasis = 'danger-emphasis',
+  warning = 'warning',
+  warning_emphasis = 'warning-emphasis',
+  info = 'info',
+  info_emphasis = 'info-emphasis',
+  light = 'light',
+  light_emphasis = 'light-emphasis',
+  dark = 'dark',
+  dark_emphasis = 'dark-emphasis',
+
+  body = 'body',
+  body_emphasis = 'body-emphasis',
+  body_secondary = 'body-secondary',
+  body_tertiary = 'body-tertiary',
+
+  black = 'black',
+  white = 'white',
+  black_50 = 'black-50',
+  white_50 = 'white-50',
+}

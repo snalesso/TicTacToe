@@ -1,7 +1,10 @@
 import { SizeMag } from "../core/Size";
 
-export type Gap = `gap-${SizeMag}`;
-export const Gap: Readonly<Record<(keyof typeof SizeMag) | SizeMag, Gap>> = {
+export type GapClass = `gap-${SizeMag}`
+export type RowGapClass = `row-${GapClass}`
+export type ColGapClass = `col-${GapClass}`
+
+export const Gap: Readonly<Record<(keyof typeof SizeMag) | SizeMag, GapClass>> = {
   Zero: 'gap-0',
   [SizeMag.Zero]: 'gap-0',
   XS: 'gap-1',
@@ -16,33 +19,36 @@ export const Gap: Readonly<Record<(keyof typeof SizeMag) | SizeMag, Gap>> = {
   [SizeMag.XL]: 'gap-5',
 } as const;
 
-export type RowGap = `row-${Gap}`
-export type ColGap = `col-${Gap}`
-
-export type GapProp = Gap /* | SizeMag */ | {
-  readonly row: RowGap /*| SizeMag*/;
-  readonly col: ColGap /*| SizeMag*/;
+export type GapsProp = GapClass | SizeMag | {
+  readonly row: GapClass | SizeMag;
+  readonly col: GapClass | SizeMag;
 } | {
-  readonly row?: RowGap /*| SizeMag*/;
-  readonly col: ColGap /*| SizeMag*/;
+  readonly row?: GapClass | SizeMag;
+  readonly col: GapClass | SizeMag;
 } | {
-  readonly row: RowGap /*| SizeMag*/;
-  readonly col?: ColGap /*| SizeMag*/;
+  readonly row: GapClass | SizeMag;
+  readonly col?: GapClass | SizeMag;
 }
 
 export type IHaveGap = {
-  readonly gap?: GapProp;
+  readonly gap?: GapsProp;
 }
 
-export function calcGapClasses(gap?: GapProp): readonly (Gap | RowGap | ColGap)[] {
-  if (gap == null)
+export function calcGapClasses(gaps?: GapsProp): readonly (GapClass | RowGapClass | ColGapClass)[] {
+  if (gaps == null)
     return [];
-  // if (typeof gap === 'number')
-  //   return [`gap-${gap}`];
-  if (typeof gap === 'string')
-    return [gap];
-  const classes: (Gap | RowGap | ColGap)[] = [];
-  gap.row && classes.push(gap.row);
-  gap.col && classes.push(gap.col);
+  if (typeof gaps !== 'object')
+    return [calcGapClass(gaps)];
+  const classes: (GapClass | RowGapClass | ColGapClass)[] = [];
+  gaps.row && classes.push(`row-${calcGapClass(gaps.row)}`);
+  gaps.col && classes.push(`col-${calcGapClass(gaps.col)}`);
   return classes;
+}
+
+export function calcGapClass(gap: GapClass | SizeMag): GapClass {
+  if (typeof gap === 'string')
+    return gap;
+  if (typeof gap === 'number')
+    return `gap-${gap}`;
+  throw new Error(`Invalid gap value: ${gap}`);
 }

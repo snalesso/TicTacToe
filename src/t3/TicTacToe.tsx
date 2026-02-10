@@ -1,5 +1,5 @@
+import { Col, Container, Row } from "react-bootstrap";
 import { Matrix2d } from "../math/Algebra";
-import Col from "../ui/controls/Col";
 import { BoardConfig } from "./Board";
 import { DEFAULT_BOARD_SIZE, DEFAULT_WINNING_LINE_LENGTH } from "./Defaults";
 import Match, { MatchPlayersConfig } from "./Match";
@@ -16,16 +16,17 @@ export default function TicTacToe() {
     matrix: new Matrix2d(DEFAULT_BOARD_SIZE.width, DEFAULT_BOARD_SIZE.height, () => null),
   };
   return (
-    <Col className='ai-c gap-3'>
-      <Match
-        players={players}
-        board={boardConfig}
-        winningLineLength={DEFAULT_WINNING_LINE_LENGTH}
-      />
-      <WinningBoards
-        size={DEFAULT_BOARD_SIZE}
-        length={DEFAULT_WINNING_LINE_LENGTH}
-      />
-    </Col>
+    <Container className='d-flex flex-column gap-3'>
+      <Row>
+        <Col className='d-flex justify-content-center'>
+          <Match players={players} board={boardConfig} winningLineLength={DEFAULT_WINNING_LINE_LENGTH} />
+        </Col>
+      </Row>
+      <Row>
+        <Col className='d-flex justify-content-center'>
+          <WinningBoards size={DEFAULT_BOARD_SIZE} length={DEFAULT_WINNING_LINE_LENGTH} />
+        </Col>
+      </Row>
+    </Container>
   );
 }
