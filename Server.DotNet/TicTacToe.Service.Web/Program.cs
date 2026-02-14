@@ -1,4 +1,4 @@
-namespace TicTacToe.Web.Api;
+namespace TicTacToe.Service.Web;
 
 public class Program
 {
