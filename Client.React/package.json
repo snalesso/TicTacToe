@@ -1,9 +1,10 @@
 {
   "name": "tic-tac-toe",
-  "author": "Sergio Nalesso",
-  "repository": "https://github.com/snalesso/TicTacToe.React",
+  "description": "TicTacToe game",
+  "version": "0.0.1",
   "private": true,
-  "version": "0.0.0",
+  "author": "Sergio Nalesso",
+  "repository": "https://github.com/snalesso/TicTacToe",
   "type": "module",
   "scripts": {
     "dev": "vite",
