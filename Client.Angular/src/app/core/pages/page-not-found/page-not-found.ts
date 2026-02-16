@@ -1,0 +1,8 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'ttt-page-not-found',
+  templateUrl: './page-not-found.html',
+  styleUrls: ['./page-not-found.scss'],
+})
+export class PageNotFoundComponent { }

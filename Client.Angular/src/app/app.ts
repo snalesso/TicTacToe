@@ -1,32 +1,29 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { APP_CONFIG } from '../environments/environment';
-import { ElectronService } from './core/services';
+import { AppHeaderComponent } from './core/components/app-header/app-header.component';
+import { ElectronService } from './core/services/electron.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'ttt-app',
   templateUrl: './app.html',
   styleUrls: ['./app.scss'],
-  imports: [RouterOutlet]
+  imports: [RouterOutlet, AppHeaderComponent]
 })
 export class AppComponent {
-  private electronService = inject(ElectronService);
-  private translate = inject(TranslateService);
 
-  protected readonly title = signal('TicTacToe');
+  private readonly _electronService = inject(ElectronService);
 
   constructor() {
-    const electronService = this.electronService;
+    const electronService = this._electronService;
 
-    this.translate.setDefaultLang('en');
     console.log('APP_CONFIG', APP_CONFIG);
 
     if (electronService.isElectron) {
       console.log(process.env);
-      console.log('Run in electron');
-      console.log('Electron ipcRenderer', this.electronService.ipcRenderer);
-      console.log('NodeJS childProcess', this.electronService.childProcess);
+      console.log('Running in Electron');
+      console.log('Electron ipcRenderer', electronService.ipcRenderer);
+      console.log('NodeJS childProcess', electronService.childProcess);
     } else {
       console.log('Run in browser');
     }

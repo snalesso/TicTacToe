@@ -1,0 +1,7 @@
+<div class="d-flex"
+     [class.d-flex-row]="isHorizontal()"
+     [class.d-flex-column]="isVertical()"
+     [class.flex-wrap]="canWrap()"
+     [class.flex-nowrap]="!canWrap()">
+    <ng-content />
+</div>

@@ -1,4 +1,3 @@
-
 export class Vector2D {
   constructor(
     public readonly x: number,

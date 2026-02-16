@@ -21,7 +21,7 @@
           "style": "scss"
         }
       },
-      "prefix": "app",
+      "prefix": "ttt",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
