@@ -1,0 +1,11 @@
+{
+  "name": "tic-tac-toe",
+  "description": "TicTacToe game",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Sergio Nalesso",
+  "repository": "https://github.com/snalesso/TicTacToe",
+  "keywords": [],
+  "main": "main.js",
+  "dependencies": {}
+}
