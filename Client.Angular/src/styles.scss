@@ -1,12 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
-.d-flex {
-  display: flex;
-}
-
-.d-inline-flex {
-  display: inline-flex;
-}
+/* Importing Bootstrap SCSS file. */
+@use 'bootstrap/scss/bootstrap';
 
 .flex-col {
   flex-direction: column;
@@ -14,12 +9,4 @@
 
 .flex-row {
   flex-direction: row;
-}
-
-.flex-wrap {
-  flex-wrap: wrap;
-}
-
-.flex-nowrap {
-  flex-wrap: nowrap;
 }
