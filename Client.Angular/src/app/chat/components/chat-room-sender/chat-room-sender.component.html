@@ -1,0 +1,23 @@
+<div class="container-fluid g-0">
+    <div class="row">
+        <div class="col">
+
+            <form>
+                <div class="input-group">
+                    <input type="text"
+                           placeholder="Message {{_roomName()}}..."
+                           aria-label="message"
+                           aria-describedby="send-msg-btn"
+                           class="form-control"
+                           [formField]="_form.text">
+                    <button id="send-msg-btn"
+                            class="btn btn-primary"
+                            type="button">
+                        Send
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

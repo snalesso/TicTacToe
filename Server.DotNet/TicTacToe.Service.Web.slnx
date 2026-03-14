@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="TicTacToe.Data/TicTacToe.Data.csproj" />
   <Project Path="TicTacToe.Service.Web/TicTacToe.Service.Web.csproj" />
+  <Project Path="TicTacToe.Service/TicTacToe.Service.csproj" />
 </Solution>

@@ -1,0 +1,27 @@
+<div class="container-fluid d-flex flex-column align-items-center g-0 gap-2">
+
+    @if (isToolbarVisible()) {
+    <div class="row">
+        <div class="col">
+            <ttt-chat-toolbar />
+        </div>
+    </div>
+    }
+
+    @if (isRoomSelectorVisible()) {
+    <div class="row">
+        <div class="col">
+            <ttt-chat-room-selector />
+        </div>
+    </div>
+    }
+
+    @if (isRoomVisible()) {
+    <div class="row">
+        <div class="col">
+            <ttt-chat-room />
+        </div>
+    </div>
+    }
+    
+</div>

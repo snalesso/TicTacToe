@@ -1,4 +1,4 @@
-export type PlayerId = number;
+export type PlayerId = number; // TODO: UserId
 
 export type Player = {
     readonly id: PlayerId;

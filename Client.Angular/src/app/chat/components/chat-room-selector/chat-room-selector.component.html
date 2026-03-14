@@ -1,0 +1,12 @@
+<div class="container-fluid text-nowrap gap-2 p-2 g-0 card round">
+    @for(room of rooms.value(); track room.id) {
+    <button class="btn btn-secondary"
+            (click)="joinRoom(room.id)"
+            [disabled]="!room.isAccessible">
+        <div class="d-flex flex-column">
+            <b>{{room.name}}</b>
+            <small class="text-muted">"{{room.description}}"</small>
+        </div>
+    </button>
+    }
+</div>

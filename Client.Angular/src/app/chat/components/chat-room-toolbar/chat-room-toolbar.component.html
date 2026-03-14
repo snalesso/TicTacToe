@@ -1,0 +1,9 @@
+<div class="d-flex flex-row gap-3">
+    @if (isLeaveBtnVisible()) {
+    <button class="btn btn-outline-danger btn-sm"
+            [disabled]="!isLeaveBtnEnabled()"
+            (click)="leaveRoom()">
+        Leave
+    </button>
+    }
+</div>

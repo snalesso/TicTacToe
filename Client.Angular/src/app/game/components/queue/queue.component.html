@@ -1,0 +1,28 @@
+<div class="container-fluid d-flex card round g-0 p-2 flex-nowrap">
+    <div class="row flex-nowrap gap-3 align-items-center flex-nowrap flex-nowrap">
+
+        <div class="col gap-3 align-items-center flex-nowrap flex-nowrap">
+
+            <span>Status: {{status()}}</span>
+
+            <div class="d-inline-flex flex-row gap-2 flex-nowrap">
+                @if (isJoinQueueBtnVisible()) {
+                <button class="btn btn-success"
+                        [disabled]="!isJoinQueueBtnEnabled()"
+                        (click)="_joinQueue()">
+                    Join Queue
+                </button>
+                }
+                @if (isLeaveQueueBtnVisible()) {
+                <button class="btn btn-danger"
+                        [disabled]="!isLeaveQueueBtnEnabled()"
+                        (click)="_leaveQueue()">
+                    Leave Queue
+                </button>
+                }
+            </div>
+
+        </div>
+
+    </div>
+</div>

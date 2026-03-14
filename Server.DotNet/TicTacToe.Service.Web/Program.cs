@@ -1,3 +1,5 @@
+using TicTacToe.Chat;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSignalR();
@@ -23,6 +25,7 @@ var app = builder.Build();
 // Order is critical: CORS -> Routing -> MapHub
 app.UseCors("CorsPolicy");
 app.UseRouting();
+app.MapHub<ChatHub>("/chat");
 app.MapControllers();
 
 await app.RunAsync();

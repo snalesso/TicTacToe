@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>TicTacToe</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Queue\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TicTacToe.Data\TicTacToe.Data.csproj" />
+    </ItemGroup>
+
+</Project>

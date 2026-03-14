@@ -1,0 +1,8 @@
+<div class="container-fluid text-nowrap card p-2 g-0 round">
+    @for(msg of messages.value(); track msg.id) {
+    <div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+        <small class="text-muted">[{{msg.timestamp | date:'yy/MM/dd HH:mm'}}]</small>
+        <span>{{msg.text}}</span>
+    </div>
+    }
+</div>
