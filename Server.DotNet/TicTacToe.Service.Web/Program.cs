@@ -1,17 +1,28 @@
-namespace TicTacToe.Service.Web;
+var builder = WebApplication.CreateBuilder(args);
 
-public class Program
+builder.Services.AddSignalR();
+builder.Services.AddControllers();
+//builder.Services.AddDbContext<TicTacToeDbContext>(options =>
+//{
+//    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//    options.UseSqlite(connectionString);
+//});
+
+builder.Services.AddCors(options =>
 {
-    public static void Main(string[] args)
-    {
-        var builder = WebApplication.CreateBuilder(args);
-        // Add services to the container.
-        builder.Services.AddControllers();
-        var app = builder.Build();
-        // Configure the HTTP request pipeline.
-        app.UseHttpsRedirection();
-        app.UseAuthorization();
-        app.MapControllers();
-        app.Run();
-    }
-}
+    options.AddPolicy("CorsPolicy", policy => policy
+        // .WithOrigins("http://localhost:4200")
+        .SetIsOriginAllowed(_ => true)
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials());
+});
+
+var app = builder.Build();
+
+// Order is critical: CORS -> Routing -> MapHub
+app.UseCors("CorsPolicy");
+app.UseRouting();
+app.MapControllers();
+
+await app.RunAsync();
