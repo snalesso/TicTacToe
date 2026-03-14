@@ -1,24 +1,21 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { of } from 'rxjs';
 import { ReactiveComponent } from '../../../shared/components/reactive.component';
 import { ChatMessage } from '../../models/chat-message';
 import { ChatService } from '../../services/chat.service';
+import { ChatRoomHeaderComponent } from "../chat-room-header/chat-room-header.component";
 import { ChatHistoryComponent } from '../chat-room-history/chat-room-history.component';
 import { ChatRoomSenderComponent } from '../chat-room-sender/chat-room-sender.component';
-import { ChatRoomToolbarComponent } from "../chat-room-toolbar/chat-room-toolbar.component";
 
 @Component({
   selector: 'ttt-chat-room',
   templateUrl: './chat-room.component.html',
-  imports: [ChatHistoryComponent, ChatRoomSenderComponent, ChatRoomToolbarComponent],
+  imports: [ChatHistoryComponent, ChatRoomSenderComponent, ChatRoomHeaderComponent],
 })
 export class ChatRoomComponent extends ReactiveComponent {
 
   private readonly _chatSvc = inject(ChatService);
-
-  public readonly name = computed(() => this._chatSvc.roomInfo.value()?.name);
-  public readonly description = computed(() => this._chatSvc.roomInfo.value()?.description);
 
   private readonly _messages = rxResource({
     defaultValue: [],

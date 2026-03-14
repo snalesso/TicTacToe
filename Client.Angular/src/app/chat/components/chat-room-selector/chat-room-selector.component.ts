@@ -16,7 +16,7 @@ export class ChatRoomSelectorComponent extends ReactiveComponent {
 
   private readonly _rooms = rxResource({
     defaultValue: [],
-    stream: () => this._chatSvc.getRooms$()
+    stream: () => this._chatSvc.getAllRooms$()
   });
   public readonly rooms = this._rooms.asReadonly();
 

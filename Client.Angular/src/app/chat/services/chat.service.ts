@@ -2,11 +2,12 @@ import { computed, Injectable, linkedSignal, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { HttpTransportType, HubConnectionBuilder, HubConnectionState, LogLevel } from '@microsoft/signalr';
 import { map, Observable, of } from 'rxjs';
+import { ServiceBase } from '../../core/services/base.service';
 import { ChatRoomId, ChatRoomInfo, ChatRoomOption } from '../models/chat-connection-status';
 import { ChatRoomStatus } from '../models/chat-room-snapshot';
 
 @Injectable({ providedIn: 'root' })
-export class ChatService {
+export class ChatService extends ServiceBase {
 
     private readonly _chatHubConn = new HubConnectionBuilder()
         .withUrl('http://localhost:5041/chat', {
@@ -59,6 +60,8 @@ export class ChatService {
     public readonly roomStatus = this._roomInfo.asReadonly();
 
     constructor() {
+        super();
+
         this._chatHubConn.onclose(error => {
             this._connectionStatus.set(this._chatHubConn.state);
         });
@@ -177,7 +180,7 @@ export class ChatService {
     }
 
     public getRoomInfo$(roomId: ChatRoomId): Observable<ChatRoomInfo> {
-        return this.getRooms$().pipe(map(rooms => {
+        return this.getAllRooms$().pipe(map(rooms => {
             const room = rooms.find(r => r.id === roomId);
             if (room == null)
                 throw new Error(`Could not find room with ID: ${roomId}.`);
@@ -196,26 +199,7 @@ export class ChatService {
         } as ChatRoomStatus);
     }
 
-    public getRooms$(): Observable<ReadonlyArray<ChatRoomOption>> {
-        return of([
-            {
-                id: '1',
-                name: `Public`,
-                description: `Everyone is welcome!`,
-                isAccessible: true,
-            },
-            {
-                id: '2',
-                name: `Help`,
-                description: `Need help?`,
-                isAccessible: false,
-            },
-            {
-                id: '3',
-                name: `Devs`,
-                description: `Heigh-Hooooo!!`,
-                isAccessible: false,
-            }
-        ] as ChatRoomOption[]);
+    public getAllRooms$() {
+        return this._http.get<ReadonlyArray<ChatRoomOption>>(this._composeEndpoint('chat/rooms'));
     }
 }

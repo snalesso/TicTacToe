@@ -3,7 +3,7 @@
 //     PublicRoom = 'public-room',
 // }
 
-export type ChatRoomId = string;
+export type ChatRoomId = number;
 
 export type ChatRoomOption = {
     readonly id: ChatRoomId;

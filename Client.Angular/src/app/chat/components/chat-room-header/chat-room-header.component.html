@@ -1,0 +1,29 @@
+<div class="d-flex flex-row gap-2 w-100 justify-content-start align-items-center">
+
+    <div class="d-flex flex-row gap-3">
+        @if (isLeaveBtnVisible()) {
+        <button class="btn btn-dark btn-sm p-1"
+                [disabled]="!isLeaveBtnEnabled()"
+                (click)="leaveRoom()">
+            <!-- <fa-icon icon="circle-xmark" /> -->
+            <fa-icon icon="chevron-left" />
+        </button>
+        }
+    </div>
+
+    <div class="vr"></div>
+
+    <div class="d-flex flex-row gap-1 align-items-baseline">
+        <figure class="m-0">
+            <blockquote class="blockquote m-0">
+                @let roomName = name();
+                <b title="roomName">{{roomName}}</b>
+            </blockquote>
+            <figcaption class="blockquote-footer m-0">
+                @let roomDes = description();
+                <cite [title]="roomDes">{{roomDes}}</cite>
+            </figcaption>
+        </figure>
+    </div>
+
+</div>

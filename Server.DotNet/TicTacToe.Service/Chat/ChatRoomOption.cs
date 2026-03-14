@@ -3,4 +3,5 @@
 public record ChatRoomOption(
     ulong Id,
     string Name,
-    string Description);
+    string Description,
+    bool IsAccessible);
