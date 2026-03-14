@@ -10,6 +10,15 @@
         "kind": "build",
         "isDefault": true
       },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "group": "build"
+      },
       "problemMatcher": {
         "owner": "typescript",
         "source": "ts",
@@ -34,6 +43,16 @@
       "group": {
         "kind": "build",
         "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "close": false,
+        "group": "build"
       },
       "problemMatcher": {
         "owner": "typescript",
