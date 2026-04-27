@@ -15,7 +15,7 @@ import { ElectronService } from './core/services/electron.service';
 })
 export class AppComponent {
 
-  private readonly _electronService = inject(ElectronService);
+  readonly #electronService = inject(ElectronService);
 
   constructor() {
     this._logElectronInfo();
@@ -23,7 +23,7 @@ export class AppComponent {
   }
 
   private _logElectronInfo() {
-    const electronService = this._electronService;
+    const electronService = this.#electronService;
     console.log('APP_CONFIG', APP_CONFIG);
     if (electronService.isElectron) {
       console.log(process.env);

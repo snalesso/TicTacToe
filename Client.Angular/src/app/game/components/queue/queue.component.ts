@@ -9,19 +9,19 @@ import { QueueService } from '../../services/queue.service';
   imports: [],
 })
 export class QueueComponent extends ReactiveComponent {
-  private readonly _queue = inject(QueueService);
+  readonly #queue = inject(QueueService);
 
-  public readonly status = this._queue.status;
+  public readonly status = this.#queue.status;
 
-  public readonly isJoinQueueBtnEnabled = computed(() => !this._queue.isBusy() && this._queue.isIdle());
-  public readonly isJoinQueueBtnVisible = computed(() => this._queue.isIdle());
+  public readonly isJoinQueueBtnEnabled = computed(() => !this.#queue.isBusy() && this.#queue.isIdle());
+  public readonly isJoinQueueBtnVisible = computed(() => this.#queue.isIdle());
   protected _joinQueue(): void {
-    this.subscribe(this._queue.joinQueueReq());
+    this.subscribe(this.#queue.joinQueueReq());
   }
   
-  public readonly isLeaveQueueBtnEnabled = computed(() => !this._queue.isBusy() && this._queue.isQueued());
-  public readonly isLeaveQueueBtnVisible = computed(() => this._queue.isQueued());
+  public readonly isLeaveQueueBtnEnabled = computed(() => !this.#queue.isBusy() && this.#queue.isQueued());
+  public readonly isLeaveQueueBtnVisible = computed(() => this.#queue.isQueued());
   protected _leaveQueue(): void {
-    this.subscribe(this._queue.leaveQueueReq());
+    this.subscribe(this.#queue.leaveQueueReq());
   }
 }

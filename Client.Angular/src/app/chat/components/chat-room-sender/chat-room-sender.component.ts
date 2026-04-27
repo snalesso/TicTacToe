@@ -11,12 +11,12 @@ import { ChatService } from '../../services/chat.service';
   imports: [ReactiveFormsModule, FormField, FaIconComponent],
 })
 export class ChatRoomSenderComponent extends ReactiveComponent implements OnInit {
-  private readonly _chatSvc = inject(ChatService);
+  readonly #chatSvc = inject(ChatService);
 
-  protected readonly _roomName = computed(() => this._chatSvc.roomInfo.value()?.name ?? '...');
+  protected readonly _roomName = computed(() => this.#chatSvc.roomInfo.value()?.name ?? '...');
 
-  private readonly _message = signal<{ text: string }>({ text: '' });
-  protected readonly _form = form(this._message, schemaPath => {
+  readonly #message = signal<{ text: string }>({ text: '' });
+  protected readonly _form = form(this.#message, schemaPath => {
     required(schemaPath.text);
     minLength(schemaPath.text, 1);
     maxLength(schemaPath.text, 100);

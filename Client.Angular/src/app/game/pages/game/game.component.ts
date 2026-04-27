@@ -12,8 +12,8 @@ import { MatchId } from '../../models/match-snapshot';
 })
 export class GameComponent extends ReactiveComponent {
 
-  private readonly _matchId = signal<MatchId | null>(null);
-  public readonly matchId = this._matchId.asReadonly();
+  readonly #matchId = signal<MatchId | null>(null);
+  public readonly matchId = this.#matchId.asReadonly();
 
   public readonly isMatchAvailable = computed(() => this.matchId() != null);
 }

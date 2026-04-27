@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace TicTacToe.Sys;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[Controller]")]
 public class TestController : ControllerBase
 {
     [HttpGet]

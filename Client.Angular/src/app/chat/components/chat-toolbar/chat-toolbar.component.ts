@@ -10,9 +10,9 @@ import { ChatService } from '../../services/chat.service';
   imports: [],
 })
 export class ChatToolbarComponent extends ReactiveComponent implements OnInit {
-  private readonly _chatSvc = inject(ChatService);
+  readonly #chatSvc = inject(ChatService);
 
-  public readonly status = this._chatSvc.hubConnectionStatus;
+  public readonly status = this.#chatSvc.hubConnectionStatus;
   public readonly isDisconnected = computed(() => this.status() === SignalR.HubConnectionState.Disconnected);
   public readonly isConnecting = computed(() => this.status() === SignalR.HubConnectionState.Connecting);
   public readonly isConnected = computed(() => this.status() === SignalR.HubConnectionState.Connected);
@@ -20,6 +20,6 @@ export class ChatToolbarComponent extends ReactiveComponent implements OnInit {
   public readonly isDisconnecting = computed(() => this.status() === SignalR.HubConnectionState.Disconnecting);
 
   public connect() {
-    return this.subscribe(from(this._chatSvc.connectAsync()));
+    return this.subscribe(from(this.#chatSvc.connectAsync()));
   }
 }

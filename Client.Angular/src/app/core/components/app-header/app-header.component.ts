@@ -12,12 +12,12 @@ import { SystemService } from '../../../system/services/system.service';
 })
 export class AppHeaderComponent {
 
-  private readonly _systemSvc = inject(SystemService);
+  readonly #systemSvc = inject(SystemService);
 
   public readonly _appName = resource({
     defaultValue: 'Loading ...',
     loader: async () => {
-      const appName = await firstValueFrom(this._systemSvc.getAppName().pipe(
+      const appName = await firstValueFrom(this.#systemSvc.getAppName().pipe(
         catchError((error: HttpErrorResponse) => {
           return of(`Failure: ${error.message}`);
         })));
@@ -26,15 +26,15 @@ export class AppHeaderComponent {
   });
   public readonly appName = 'Tic Tac Toe';
 
-  public readonly _sysInfo = resource({
+  readonly #sysInfo = resource({
     defaultValue: undefined,
     loader: async () => {
-      const sysInfo = await firstValueFrom(this._systemSvc.getInfo().pipe(
+      const sysInfo = await firstValueFrom(this.#systemSvc.getInfo().pipe(
         catchError((error: HttpErrorResponse) => {
           return of(null);
         })));
       return sysInfo;
     },
   });
-  public readonly sysInfo = this._sysInfo.value.asReadonly();
+  public readonly sysInfo = this.#sysInfo.value.asReadonly();
 }

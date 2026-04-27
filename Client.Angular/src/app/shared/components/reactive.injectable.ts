@@ -6,13 +6,13 @@ export abstract class ReactiveInjectable {
 
   protected readonly _destructionRef = inject(DestroyRef);
 
-  private readonly _destruction$$ = new Subject<void>();
-  @Output() public readonly destroyed$ = this._destruction$$.asObservable();
+  readonly #destruction$$ = new Subject<void>();
+  @Output() public readonly destroyed$ = this.#destruction$$.asObservable();
 
   constructor() {
     const unregister = this._destructionRef.onDestroy(() => {
-      this._destruction$$.next();
-      this._destruction$$.complete();
+      this.#destruction$$.next();
+      this.#destruction$$.complete();
       unregister();
     });
     this.registerEffects();

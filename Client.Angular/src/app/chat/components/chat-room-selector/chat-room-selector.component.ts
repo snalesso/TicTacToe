@@ -12,16 +12,16 @@ import { ChatService } from '../../services/chat.service';
 })
 export class ChatRoomSelectorComponent extends ReactiveComponent {
 
-  private readonly _chatSvc = inject(ChatService);
+  readonly #chatSvc = inject(ChatService);
 
-  private readonly _rooms = rxResource({
+  readonly #rooms = rxResource({
     defaultValue: [],
-    stream: () => this._chatSvc.getAllRooms$()
+    stream: () => this.#chatSvc.getAllRooms$()
   });
-  public readonly rooms = this._rooms.asReadonly();
+  public readonly rooms = this.#rooms.asReadonly();
 
-  public readonly isJoinBtnVisible = computed(() => this._chatSvc.isHubConnected() && !this._chatSvc.isInRoom());
-  public readonly isJoinBtnEnabled = computed(() => this.isJoinBtnVisible() && !this._chatSvc.isBusy());
+  public readonly isJoinBtnVisible = computed(() => this.#chatSvc.isHubConnected() && !this.#chatSvc.isInRoom());
+  public readonly isJoinBtnEnabled = computed(() => this.isJoinBtnVisible() && !this.#chatSvc.isBusy());
 
   protected joinRoom(roomId: ChatRoomId): Subscription {
     const rooms = this.rooms.value();
@@ -30,6 +30,6 @@ export class ChatRoomSelectorComponent extends ReactiveComponent {
       throw new Error(`Room not available.`);
     if (!room?.isAccessible)
       throw new Error(`Room is not accessible.`);
-    return this.subscribe(from(this._chatSvc.joinAsync(room.id)));
+    return this.subscribe(from(this.#chatSvc.joinAsync(room.id)));
   }
 }

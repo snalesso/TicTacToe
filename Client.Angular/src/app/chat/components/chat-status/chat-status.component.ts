@@ -8,8 +8,8 @@ import { ChatService } from '../../services/chat.service';
   imports: [],
 })
 export class ChatStatusComponent extends ReactiveComponent implements OnInit {
-  private readonly _chatSvc = inject(ChatService);
+  readonly #chatSvc = inject(ChatService);
 
-  public readonly connectionStatus = this._chatSvc.hubConnectionStatus;
+  public readonly connectionStatus = this.#chatSvc.hubConnectionStatus;
 
 }

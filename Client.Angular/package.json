@@ -8,6 +8,8 @@
   "keywords": [],
   "main": "app/main.js",
   "scripts": {
+    "clean": "rm -rf node_modules package-lock.json",
+    "reinstall": "npm run clean && npm i",
     "postinstall": "electron-builder install-app-deps",
     "ng": "ng",
     "start": "npm-run-all -p electron:serve ng:serve",

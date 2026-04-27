@@ -10,19 +10,19 @@ import { ChatService } from '../../services/chat.service';
   imports: [FaIconComponent],
 })
 export class ChatRoomHeaderComponent extends ReactiveComponent implements OnInit {
-  private readonly _chatSvc = inject(ChatService);
+  readonly #chatSvc = inject(ChatService);
 
-  public readonly connectionStatus = this._chatSvc.hubConnectionStatus;
-  public readonly isConnected = this._chatSvc.isHubConnected;
+  public readonly connectionStatus = this.#chatSvc.hubConnectionStatus;
+  public readonly isConnected = this.#chatSvc.isHubConnected;
 
-  public readonly isLeaveBtnVisible = computed(() => this.isConnected() && this._chatSvc.isInRoom());
-  public readonly isLeaveBtnEnabled = computed(() => this.isLeaveBtnVisible() && !this._chatSvc.isBusy());
+  public readonly isLeaveBtnVisible = computed(() => this.isConnected() && this.#chatSvc.isInRoom());
+  public readonly isLeaveBtnEnabled = computed(() => this.isLeaveBtnVisible() && !this.#chatSvc.isBusy());
 
-  public readonly name = computed(() => this._chatSvc.roomInfo.value()?.name);
-  public readonly description = computed(() => this._chatSvc.roomInfo.value()?.description);
+  public readonly name = computed(() => this.#chatSvc.roomInfo.value()?.name);
+  public readonly description = computed(() => this.#chatSvc.roomInfo.value()?.description);
   
   protected leaveRoom(): Subscription {
-    return this.subscribe(from(this._chatSvc.leaveAsync()));
+    return this.subscribe(from(this.#chatSvc.leaveAsync()));
   }
 
 }

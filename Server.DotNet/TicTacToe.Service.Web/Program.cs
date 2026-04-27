@@ -1,16 +1,28 @@
+using Microsoft.EntityFrameworkCore;
 using TicTacToe.Chat;
+using TicTacToe.Composition;
+using TicTacToe.Pgs;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSignalR();
-builder.Services.AddControllers();
-//builder.Services.AddDbContext<TicTacToeDbContext>(options =>
-//{
-//    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-//    options.UseSqlite(connectionString);
-//});
+var builderServices = builder.Services;
 
-builder.Services.AddCors(options =>
+builderServices
+    //.AddDbContext<TicTacToeSqliteDbContext>(options =>
+    //{
+    //    var connectionString = builder.Configuration.GetConnectionString(TicTacToeSqliteDbContext.DefaultSqliteConnectionStringKey);
+    //    options.UseSqlite(connectionString);
+    //})
+    .AddDbContext<TicTacToePgsDbContext>(options =>
+    {
+        var connectionString = builder.Configuration.GetConnectionString(TicTacToePgsDbContext.DefaultPgsConnectionStringKey);
+        options.UseNpgsql(connectionString);
+    })
+    .RegisterServices();
+
+builderServices.AddSignalR();
+builderServices.AddControllers();
+builderServices.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", policy => policy
         // .WithOrigins("http://localhost:4200")

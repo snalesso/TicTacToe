@@ -15,9 +15,9 @@ import { ChatRoomSenderComponent } from '../chat-room-sender/chat-room-sender.co
 })
 export class ChatRoomComponent extends ReactiveComponent {
 
-  private readonly _chatSvc = inject(ChatService);
+  readonly #chatSvc = inject(ChatService);
 
-  private readonly _messages = rxResource({
+  readonly #messages = rxResource({
     defaultValue: [],
     stream: () => of(Array(7).fill(0).map((_, i) => ({
       id: ++i,
@@ -26,6 +26,6 @@ export class ChatRoomComponent extends ReactiveComponent {
       text: `Message #${i}`
     } as ChatMessage)))
   });
-  public readonly messages = this._messages.asReadonly();
+  public readonly messages = this.#messages.asReadonly();
 
 }

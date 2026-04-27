@@ -30,8 +30,8 @@ export class Matrix2d<T> {
 
   public readonly width: number;
   public readonly height: number;
-  private readonly _cols: Array<Array<T>>;
-  // public get cells(): ReadonlyArray<ReadonlyArray<T>> { return this._cells; }
+  readonly #cols: Array<Array<T>>;
+  // public get cells(): ReadonlyArray<ReadonlyArray<T>> { return this.#cells; }
 
   constructor(
     width: number,
@@ -40,17 +40,17 @@ export class Matrix2d<T> {
 
     this.width = width;
     this.height = height;
-    this._cols = createMatrix2d(this.width, this.height, p => calcValue(p.x, p.y));
+    this.#cols = createMatrix2d(this.width, this.height, p => calcValue(p.x, p.y));
   }
 
-  public getCol(index: number): ReadonlyArray<T> { return this._cols[index]; }
-  public getCols(): ReadonlyArray<ReadonlyArray<T>> { return this._cols; }
+  public getCol(index: number): ReadonlyArray<T> { return this.#cols[index]; }
+  public getCols(): ReadonlyArray<ReadonlyArray<T>> { return this.#cols; }
 
-  public getRow(index: number): ReadonlyArray<T> { return this._cols.map(c => c[index]); }
-  public getRows(): ReadonlyArray<ReadonlyArray<T>> { return Array(this.height).fill(undefined).map((_, ri) => this._cols.map(c => c[ri])); }
+  public getRow(index: number): ReadonlyArray<T> { return this.#cols.map(c => c[index]); }
+  public getRows(): ReadonlyArray<ReadonlyArray<T>> { return Array(this.height).fill(undefined).map((_, ri) => this.#cols.map(c => c[ri])); }
 
-  public getValue(x: number, y: number): T { return this._cols[x][y]; }
-  public setValue(x: number, y: number, value: T): void { this._cols[x][y] = value; }
+  public getValue(x: number, y: number): T { return this.#cols[x][y]; }
+  public setValue(x: number, y: number, value: T): void { this.#cols[x][y] = value; }
 
   public with(x: number, y: number, value: T): Matrix2d<T> {
     return new Matrix2d(this.width, this.height, (ix, iy) => {

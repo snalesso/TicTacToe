@@ -1,7 +1,7 @@
 ﻿namespace TicTacToe.Chat;
 
 public record ChatRoomOption(
-    ulong Id,
+    long Id,
     string Name,
     string Description,
-    bool IsAccessible);
+    bool IsAccessible = true);

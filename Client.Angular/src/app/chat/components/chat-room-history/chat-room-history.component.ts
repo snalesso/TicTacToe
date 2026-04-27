@@ -12,9 +12,9 @@ import { ChatService } from '../../services/chat.service';
 })
 export class ChatHistoryComponent {
 
-  private readonly _chatSvc = inject(ChatService);
+  readonly #chatSvc = inject(ChatService);
 
-  private readonly _messages = rxResource({
+  readonly #messages = rxResource({
     defaultValue: [],
     stream: () => of(Array(7).fill(0).map((_, i) => ({
       id: ++i,
@@ -23,5 +23,5 @@ export class ChatHistoryComponent {
       text: `Message #${i}`
     } as ChatMessage)))
   });
-  public readonly messages = this._messages.asReadonly();
+  public readonly messages = this.#messages.asReadonly();
 }

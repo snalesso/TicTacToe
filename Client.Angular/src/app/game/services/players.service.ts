@@ -6,7 +6,7 @@ import { PlayerId } from '../models/player';
 
 @Injectable({ providedIn: 'root' })
 export class PlayersService {
-    private readonly _http = inject(HttpClient);
+    readonly #http = inject(HttpClient);
 
     public get(playerId: PlayerId): Observable<MatchPlayer> {
         return of({

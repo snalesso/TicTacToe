@@ -11,7 +11,7 @@ import { MatchPlayerComponent } from '../match-player/match-player.component';
   imports: [MatchPlayerComponent, BoardComponent],
 })
 export class MatchComponent {
-  private readonly _match = inject(MatchService);
+  readonly #match = inject(MatchService);
 
   public readonly matchId = input.required<MatchId | null>()
 }
