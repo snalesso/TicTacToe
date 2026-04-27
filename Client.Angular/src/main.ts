@@ -7,6 +7,7 @@ import { provideRouter } from '@angular/router';
 import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app/app';
+import { CardsGameComponent } from './app/cards/components/cards-game/cards-game.component';
 import { PageNotFoundComponent } from './app/core/pages/page-not-found/page-not-found';
 import { GameComponent } from './app/game/pages/game/game.component';
 import { APP_CONFIG } from './environments/environment';
@@ -37,6 +38,10 @@ bootstrapApplication(AppComponent, {
       {
         path: 'game',
         component: GameComponent
+      },
+      {
+        path: 'cards',
+        component: CardsGameComponent
       },
       {
         path: '**',
