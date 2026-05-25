@@ -13,8 +13,8 @@
            [class.disabled]="link.isDisabled"
            [attr.aria-disabled]="link.isDisabled"
            [routerLink]="link.url"
-           routerLinkActive="active"
-           [routerLinkActiveOptions]="{ exact: true }">
+           [routerLinkActiveOptions]="_routerLinkActiveOptions"
+           routerLinkActive="active">
           {{link.label}}
         </a>
       </li>

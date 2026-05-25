@@ -15,6 +15,17 @@ export class AppHeaderComponent {
 
   readonly #systemSvc = inject(SystemService);
 
+  protected readonly _routerLinkActiveOptions: RouterLinkActive['routerLinkActiveOptions'] = {
+    paths: 'subset'
+  }
+
+  public readonly links: ReadonlyArray<NavbarLink> = [
+    { label: 'Game', url: ['game'] },
+    { label: 'Cards', url: ['cards'] },
+    { label: 'Auth', url: ['auth'] },
+    { label: 'Tests', url: ['tests'] },
+  ]
+
   public readonly _appName = resource({
     defaultValue: 'Loading ...',
     loader: async () => {
@@ -38,11 +49,4 @@ export class AppHeaderComponent {
     },
   });
   public readonly sysInfo = this.#sysInfo.value.asReadonly();
-
-  public readonly links: ReadonlyArray<NavbarLink> = [
-    { label: 'Game', url: ['game'] },
-    { label: 'Cards', url: ['cards'] },
-    { label: 'Auth', url: ['auth'] },
-    { label: 'Tests', url: ['tests'] },
-  ]
 }
