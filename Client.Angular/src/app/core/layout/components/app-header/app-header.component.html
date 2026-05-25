@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand bg-dark-subtle rounded border border-tertiary py-2 px-3 gap-3">
+
+  <a class="navbar-brand m-0"
+     routerLink="/">
+    {{appName}}
+  </a>
+
+  <div class="collapse navbar-collapse">
+    <ul class="nav navbar-nav nav-underline">
+      @for (link of links; track $index) {
+      <li class="nav-item">
+        <a class="nav-link"
+           [class.disabled]="link.isDisabled"
+           [attr.aria-disabled]="link.isDisabled"
+           [routerLink]="link.url"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: true }">
+          {{link.label}}
+        </a>
+      </li>
+      }
+    </ul>
+  </div>
+
+</nav>

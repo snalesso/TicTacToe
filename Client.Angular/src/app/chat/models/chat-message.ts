@@ -1,4 +1,4 @@
-import { UserId } from "./user";
+import { UserId } from "../../auth/models/user";
 
 export type ChatMessageId = number;
 

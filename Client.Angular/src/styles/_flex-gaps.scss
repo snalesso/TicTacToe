@@ -1,0 +1,18 @@
+@use 'variables' as vars;
+
+@mixin row-gap($name, $size) {
+    .row-gap-#{$name} {
+        row-gap: $size;
+    }
+}
+
+@mixin col-gap($name, $size) {
+    .column-gap-#{$name} {
+        row-gap: $size;
+    }
+}
+
+@each $name, $size in vars.$sizes {
+    @include row-gap($name, $size);
+    @include col-gap($name, $size);
+}

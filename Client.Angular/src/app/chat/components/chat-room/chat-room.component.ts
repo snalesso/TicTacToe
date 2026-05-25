@@ -1,9 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { of } from 'rxjs';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ReactiveComponent } from '../../../shared/components/reactive.component';
-import { ChatMessage } from '../../models/chat-message';
-import { ChatService } from '../../services/chat.service';
 import { ChatRoomHeaderComponent } from "../chat-room-header/chat-room-header.component";
 import { ChatHistoryComponent } from '../chat-room-history/chat-room-history.component';
 import { ChatRoomSenderComponent } from '../chat-room-sender/chat-room-sender.component';
@@ -11,21 +7,9 @@ import { ChatRoomSenderComponent } from '../chat-room-sender/chat-room-sender.co
 @Component({
   selector: 'ttt-chat-room',
   templateUrl: './chat-room.component.html',
+  styleUrl: './chat-room.component.scss',
   imports: [ChatHistoryComponent, ChatRoomSenderComponent, ChatRoomHeaderComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatRoomComponent extends ReactiveComponent {
-
-  readonly #chatSvc = inject(ChatService);
-
-  readonly #messages = rxResource({
-    defaultValue: [],
-    stream: () => of(Array(7).fill(0).map((_, i) => ({
-      id: ++i,
-      timestamp: new Date(),
-      authorId: (i % 3) + 1,
-      text: `Message #${i}`
-    } as ChatMessage)))
-  });
-  public readonly messages = this.#messages.asReadonly();
-
 }

@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
 import * as SignalR from '@microsoft/signalr';
 import { from } from 'rxjs';
 import { ReactiveComponent } from '../../../shared/components/reactive.component';
@@ -8,6 +8,7 @@ import { ChatService } from '../../services/chat.service';
   selector: 'ttt-chat-toolbar',
   templateUrl: './chat-toolbar.component.html',
   imports: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatToolbarComponent extends ReactiveComponent implements OnInit {
   readonly #chatSvc = inject(ChatService);

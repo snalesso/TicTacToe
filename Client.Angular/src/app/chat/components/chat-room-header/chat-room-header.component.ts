@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { from, Subscription } from 'rxjs';
 import { ReactiveComponent } from '../../../shared/components/reactive.component';
@@ -7,7 +7,9 @@ import { ChatService } from '../../services/chat.service';
 @Component({
   selector: 'ttt-chat-room-header',
   templateUrl: './chat-room-header.component.html',
+  styleUrl: './chat-room-header.component.scss',
   imports: [FaIconComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatRoomHeaderComponent extends ReactiveComponent implements OnInit {
   readonly #chatSvc = inject(ChatService);
@@ -20,7 +22,7 @@ export class ChatRoomHeaderComponent extends ReactiveComponent implements OnInit
 
   public readonly name = computed(() => this.#chatSvc.roomInfo.value()?.name);
   public readonly description = computed(() => this.#chatSvc.roomInfo.value()?.description);
-  
+
   protected leaveRoom(): Subscription {
     return this.subscribe(from(this.#chatSvc.leaveAsync()));
   }

@@ -1,11 +1,21 @@
-<header>
-    <ttt-app-header />
-</header>
+<div class="d-flex flex-column flex-fill row-gap-md overflow-y-hidden p-1 gap-2">
 
-<main class="container d-flex align-items-center justify-content-center">
-    <router-outlet />
-</main>
+  <div class="d-flex flex-row">
+    <div class="d-flex flex-column flex-fill">
+      <ttt-app-header />
+    </div>
+  </div>
 
-<!-- <footer>
-    <ttt-app-footer />
-</footer> -->
+  <div class="d-flex flex-row flex-fill overflow-y-hidden">
+    <div class="d-flex flex-column flex-fill overflow-y-hidden">
+      <router-outlet />
+    </div>
+  </div>
+
+  <div class="d-flex flex-row">
+    <div class="d-flex flex-column flex-fill">
+      <ttt-app-footer />
+    </div>
+  </div>
+
+</div>

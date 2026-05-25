@@ -1,14 +1,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, resource } from '@angular/core';
-import { RouterLink } from "@angular/router";
+import { RouterLink, RouterLinkActive } from "@angular/router";
 import { catchError, firstValueFrom, of } from 'rxjs';
-import { SystemService } from '../../../system/services/system.service';
+import { SystemService } from '../../../../system/services/system.service';
+import { NavbarLink } from '../../models/navbar-link';
 
 @Component({
   selector: 'ttt-app-header',
   templateUrl: './app-header.component.html',
   styleUrl: './app-header.component.scss',
-  imports: [RouterLink],
+  imports: [RouterLink, RouterLinkActive],
 })
 export class AppHeaderComponent {
 
@@ -37,4 +38,11 @@ export class AppHeaderComponent {
     },
   });
   public readonly sysInfo = this.#sysInfo.value.asReadonly();
+
+  public readonly links: ReadonlyArray<NavbarLink> = [
+    { label: 'Game', url: ['game'] },
+    { label: 'Cards', url: ['cards'] },
+    { label: 'Auth', url: ['auth'] },
+    { label: 'Tests', url: ['tests'] },
+  ]
 }

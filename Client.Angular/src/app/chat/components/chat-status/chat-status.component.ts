@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { ReactiveComponent } from '../../../shared/components/reactive.component';
 import { ChatService } from '../../services/chat.service';
 
@@ -6,6 +6,7 @@ import { ChatService } from '../../services/chat.service';
   selector: 'ttt-chat-status',
   templateUrl: './chat-status.component.html',
   imports: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatStatusComponent extends ReactiveComponent implements OnInit {
   readonly #chatSvc = inject(ChatService);

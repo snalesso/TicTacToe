@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { form, FormField, maxLength, minLength, pattern, required } from '@angular/forms/signals';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
@@ -8,7 +8,9 @@ import { ChatService } from '../../services/chat.service';
 @Component({
   selector: 'ttt-chat-room-sender',
   templateUrl: './chat-room-sender.component.html',
+  styleUrl: './chat-room-sender.component.scss',
   imports: [ReactiveFormsModule, FormField, FaIconComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatRoomSenderComponent extends ReactiveComponent implements OnInit {
   readonly #chatSvc = inject(ChatService);

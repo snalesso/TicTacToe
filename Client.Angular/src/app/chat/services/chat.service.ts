@@ -2,9 +2,9 @@ import { computed, Injectable, linkedSignal, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { HttpTransportType, HubConnectionBuilder, HubConnectionState, LogLevel } from '@microsoft/signalr';
 import { map, Observable, of } from 'rxjs';
-import { ServiceBase } from '../../core/services/base.service';
-import { ChatRoomId, ChatRoomInfo, ChatRoomOption } from '../models/chat-connection-status';
-import { ChatRoomStatus } from '../models/chat-room-snapshot';
+import { ServiceBase } from '../../shared/services/base.service';
+import { ChatMessage } from '../models/chat-message';
+import { ChatRoomId, ChatRoomInfo, ChatRoomOption, ChatRoomStatus } from '../models/chat-room';
 
 @Injectable({ providedIn: 'root' })
 export class ChatService extends ServiceBase {
@@ -201,5 +201,9 @@ export class ChatService extends ServiceBase {
 
     public getAllRooms$() {
         return this._http.get<ReadonlyArray<ChatRoomOption>>(this._composeEndpoint('chat/rooms'));
+    }
+
+    public getRoomMessages$(roomId: ChatRoomId) {
+        return this._http.get<ReadonlyArray<ChatMessage>>(this._composeEndpoint(`chat/rooms/${roomId}/messages`));
     }
 }

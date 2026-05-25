@@ -1,12 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
-
 /* Importing Bootstrap SCSS file. */
 @use 'bootstrap/scss/bootstrap';
+/* Custom styles */
+// @use 'styles/index';
 
-.flex-col {
-  flex-direction: column;
+html,
+body {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    height: 100vh;
+    min-height: 100vh;
+    overflow-y: hidden;
+    overflow-x: hidden;
+
+    padding: 0;
+    margin: 0;
 }
 
-.flex-row {
-  flex-direction: row;
+html {
+    background-color: #101010;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

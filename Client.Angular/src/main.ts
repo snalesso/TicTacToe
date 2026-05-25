@@ -8,8 +8,9 @@ import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app/app';
 import { CardsGameComponent } from './app/cards/components/cards-game/cards-game.component';
-import { PageNotFoundComponent } from './app/core/pages/page-not-found/page-not-found';
+import { PageNotFoundComponent } from './app/core/layout/pages/page-not-found/page-not-found';
 import { GameComponent } from './app/game/pages/game/game.component';
+import { HomeComponent as TestsHomeComponent } from './app/tests/pages/home/home.component';
 import { APP_CONFIG } from './environments/environment';
 
 if (APP_CONFIG.production) {
@@ -36,12 +37,20 @@ bootstrapApplication(AppComponent, {
         pathMatch: 'full'
       },
       {
+        path: 'auth',
+        loadChildren: () => import('./app/auth/auth.routes').then(m => m.AUTH_ROUTES)
+      },
+      {
         path: 'game',
         component: GameComponent
       },
       {
         path: 'cards',
         component: CardsGameComponent
+      },
+      {
+        path: 'tests',
+        component: TestsHomeComponent
       },
       {
         path: '**',

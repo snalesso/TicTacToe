@@ -1,14 +1,16 @@
-import { Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { from, Subscription } from 'rxjs';
 import { ReactiveComponent } from '../../../shared/components/reactive.component';
-import { ChatRoomId } from '../../models/chat-connection-status';
+import { ChatRoomId } from '../../models/chat-room';
 import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'ttt-chat-room-selector',
   templateUrl: './chat-room-selector.component.html',
+  styleUrl: './chat-room-selector.component.scss',
   imports: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatRoomSelectorComponent extends ReactiveComponent {
 

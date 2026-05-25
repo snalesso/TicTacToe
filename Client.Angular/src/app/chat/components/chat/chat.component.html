@@ -1,27 +1,23 @@
-<div class="container-fluid d-flex flex-column align-items-center g-0 gap-2">
-
-    @if (isToolbarVisible()) {
-    <div class="row">
-        <div class="col">
-            <ttt-chat-toolbar />
-        </div>
+@if (isToolbarVisible()) {
+<div class="d-flex flex-row">
+    <div class="d-flex flex-column">
+        <ttt-chat-toolbar />
     </div>
-    }
-
-    @if (isRoomSelectorVisible()) {
-    <div class="row">
-        <div class="col">
-            <ttt-chat-room-selector />
-        </div>
-    </div>
-    }
-
-    @if (isRoomVisible()) {
-    <div class="row">
-        <div class="col">
-            <ttt-chat-room />
-        </div>
-    </div>
-    }
-    
 </div>
+}
+
+@if (isRoomSelectorVisible()) {
+<div class="d-flex flex-row flex-fill">
+    <div class="d-flex flex-column flex-fill overflow-y-hidden align-items-center">
+        <ttt-chat-room-selector />
+    </div>
+</div>
+}
+
+@if (isRoomVisible()) {
+<div class="d-flex flex-row flex-fill overflow-y-hidden">
+    <div class="d-flex flex-column flex-fill overflow-y-hidden">
+        <ttt-chat-room />
+    </div>
+</div>
+}

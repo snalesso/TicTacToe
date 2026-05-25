@@ -4,14 +4,15 @@ import { FaConfig, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { APP_CONFIG } from '../environments/environment';
-import { AppHeaderComponent } from './core/components/app-header/app-header.component';
+import { AppFooterComponent } from "./core/layout/components/app-footer/app-footer.component";
+import { AppHeaderComponent } from './core/layout/components/app-header/app-header.component';
 import { ElectronService } from './core/services/electron.service';
 
 @Component({
   selector: 'ttt-app',
   templateUrl: './app.html',
   styleUrls: ['./app.scss'],
-  imports: [RouterOutlet, AppHeaderComponent]
+  imports: [RouterOutlet, AppHeaderComponent, AppFooterComponent]
 })
 export class AppComponent {
 

@@ -1,13 +1,14 @@
 import { NgFor, NgForOf } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Card } from '../../models/card';
 import { CardComponent } from '../card/card.component';
 
 @Component({
   selector: 'ttt-hand',
-  imports: [NgFor, NgForOf, CardComponent],
   templateUrl: './hand.component.html',
   styleUrl: './hand.component.scss',
+  imports: [NgFor, NgForOf, CardComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HandComponent {
 

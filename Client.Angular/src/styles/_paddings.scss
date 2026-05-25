@@ -1,0 +1,48 @@
+@use 'variables' as vars;
+
+@mixin pl($name, $size) {
+    .pl-#{$name} {
+        padding-left: $size;
+    }
+}
+
+@mixin pr($name, $size) {
+    .pr-#{$name} {
+        padding-right: $size;
+    }
+}
+
+@mixin pt($name, $size) {
+    .pt-#{$name} {
+        padding-top: $size;
+    }
+}
+
+@mixin pb($name, $size) {
+    .pb-#{$name} {
+        padding-bottom: $size;
+    }
+}
+
+@mixin px($name, $size) {
+    .px-#{$name} {
+        padding-left: $size;
+        padding-right: $size;
+    }
+}
+
+@mixin py($name, $size) {
+    .py-#{$name} {
+        padding-top: $size;
+        padding-bottom: $size;
+    }
+}
+
+@each $name, $size in vars.$sizes {
+    @include pt($name, $size);
+    @include pb($name, $size);
+    @include pl($name, $size);
+    @include pr($name, $size);
+    @include px($name, $size);
+    @include py($name, $size);
+}

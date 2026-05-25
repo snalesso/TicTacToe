@@ -1,27 +1,30 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { of } from 'rxjs';
-import { ChatMessage } from '../../models/chat-message';
+import { ChatRoomService } from '../../services/chat-room.service';
 import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'ttt-chat-room-history',
   templateUrl: './chat-room-history.component.html',
+  styleUrl: './chat-room-history.component.scss',
   imports: [DatePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatHistoryComponent {
 
   readonly #chatSvc = inject(ChatService);
+  readonly #chatRoom = inject(ChatRoomService);
 
   readonly #messages = rxResource({
     defaultValue: [],
-    stream: () => of(Array(7).fill(0).map((_, i) => ({
-      id: ++i,
-      timestamp: new Date(),
-      authorId: (i % 3) + 1,
-      text: `Message #${i}`
-    } as ChatMessage)))
+    params: this.#chatSvc.roomId,
+    stream: ({ params: roomId }) => {
+      if (roomId == null)
+        return of([]);
+      return this.#chatSvc.getRoomMessages$(roomId);
+    }
   });
   public readonly messages = this.#messages.asReadonly();
 }
