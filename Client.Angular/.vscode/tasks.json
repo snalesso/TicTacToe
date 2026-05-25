@@ -51,7 +51,7 @@
         "panel": "shared",
         "showReuseMessage": true,
         "clear": false,
-        "close": false,
+        "close": true,
         "group": "build"
       },
       "problemMatcher": {
