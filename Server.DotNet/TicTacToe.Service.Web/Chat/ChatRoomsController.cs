@@ -10,15 +10,12 @@ public class ChatRoomsController : ControllerBase
 
     public ChatRoomsController(ChatRoomOptionProvider options)
     {
-        _options = options ?? throw new ArgumentNullException(nameof(options));
+        this._options = options ?? throw new ArgumentNullException(nameof(options));
     }
 
     [HttpGet]
     public async Task<IReadOnlyList<ChatRoomOption>> GetAllAsync(CancellationToken ct = default)
     {
-        //yield return new ChatRoomOption(1, "Public", "Everyone is welcome!", true);
-        //yield return new ChatRoomOption(2, "Support", "Got in troubles?", false);
-        //yield return new ChatRoomOption(3, "Devs", "Madness room", false);
-        return await _options.GetAllAsync(ct);
+        return await this._options.GetAllAsync(ct);
     }
 }

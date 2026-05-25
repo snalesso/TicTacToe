@@ -13,7 +13,7 @@ public class SystemController : ControllerBase
     [HttpGet("app-name")]
     public ContentResult GetAppName()
     {
-        return Content("About text", Microsoft.Net.Http.Headers.MediaTypeHeaderValue.Parse("text/plain"));
+        return this.Content("About text", Microsoft.Net.Http.Headers.MediaTypeHeaderValue.Parse("text/plain"));
     }
 
     [HttpGet("info")]

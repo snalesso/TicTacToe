@@ -6,7 +6,7 @@ namespace TicTacToe.Composition;
 public static class Library
 {
     public static IServiceCollection RegisterServices(this IServiceCollection services)
-    {
-        return services.AddScoped<ChatRoomOptionProvider>();
-    }
+        => services
+            .AddScoped<ChatRoomOptionProvider>()
+            .AddScoped<ChatRoomMessagesProvider>();
 }

@@ -13,9 +13,9 @@ public class TicTacToePgsDbContext : DbContext
         // this.Database.EnsureCreated();
     }
 
-    public DbSet<User> Users => Set<User>();
-    public DbSet<ChatRoom> ChatRooms => Set<ChatRoom>();
-    public DbSet<ChatMessage> ChatMessages => Set<ChatMessage>();
+    public DbSet<User> Users => this.Set<User>();
+    public DbSet<ChatRoom> ChatRooms => this.Set<ChatRoom>();
+    public DbSet<ChatMessage> ChatMessages => this.Set<ChatMessage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -13,7 +13,7 @@ public class ChatMessage
     public const int TEXT_MAX_LENGTH = 360;
     public required string Text { get; init; }
 
-    public required DateTime Time { get; init; }
+    public required DateTime Timestamp { get; init; }
 
     #region navigation properties
 

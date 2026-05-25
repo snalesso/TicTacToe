@@ -34,7 +34,7 @@ public class ChatMessageSqliteConfiguration : IEntityTypeConfiguration<ChatMessa
             .HasMaxLength(ChatMessage.TEXT_MAX_LENGTH);
 
         builder
-            .Property(x => x.Time)
+            .Property(x => x.Timestamp)
             .IsRequired()
             .HasDefaultValueSql("CURRENT_TIMESTAMP");
     }

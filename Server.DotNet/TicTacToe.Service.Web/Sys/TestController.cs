@@ -7,5 +7,5 @@ namespace TicTacToe.Sys;
 public class TestController : ControllerBase
 {
     [HttpGet]
-    public IActionResult Get() => Ok("hello");
+    public IActionResult Get() => this.Ok("hello");
 }

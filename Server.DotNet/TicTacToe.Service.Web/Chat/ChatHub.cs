@@ -6,31 +6,31 @@ namespace TicTacToe.Chat;
 public class ChatHub : Hub
 {
     // // chatId -> set of connectionIds
-    private static readonly ConcurrentDictionary<string, HashSet<string>> Chats = new();
+    private static readonly ConcurrentDictionary<string, HashSet<string>> _chats = new();
 
     [HubMethodName("Join")]
     public async Task JoinAsync(string chatId)
     {
-        var connectionId = Context.ConnectionId;
-        var chatConnections = Chats.GetOrAdd(chatId, _ => []);
+        var connectionId = this.Context.ConnectionId;
+        var chatConnections = _chats.GetOrAdd(chatId, _ => []);
 
         lock (chatConnections)
         {
             chatConnections.Add(connectionId);
         }
 
-        await Groups.AddToGroupAsync(connectionId, chatId);
+        await this.Groups.AddToGroupAsync(connectionId, chatId);
 
-        await Clients.Group(chatId).SendAsync("ReceiveChatSize", chatConnections.Count);
+        await this.Clients.Group(chatId).SendAsync("ReceiveChatSize", chatConnections.Count);
 
-        await BroadcastChatSize(chatId);
+        await this.BroadcastChatSize(chatId);
     }
 
     [HubMethodName("Leave")]
     public async Task LeaveAsync(string chatId)
     {
-        var connectionId = Context.ConnectionId;
-        if (!Chats.TryGetValue(chatId, out var connections))
+        var connectionId = this.Context.ConnectionId;
+        if (!_chats.TryGetValue(chatId, out var connections))
             return;
 
         lock (connections)
@@ -38,8 +38,8 @@ public class ChatHub : Hub
             connections.Remove(connectionId);
         }
 
-        await Groups.RemoveFromGroupAsync(connectionId, chatId);
-        await BroadcastChatSize(chatId);
+        await this.Groups.RemoveFromGroupAsync(connectionId, chatId);
+        await this.BroadcastChatSize(chatId);
     }
 
     public override Task OnConnectedAsync()
@@ -49,18 +49,18 @@ public class ChatHub : Hub
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        foreach (var (chatId, connections) in Chats)
+        foreach (var (chatId, connections) in _chats)
         {
             bool removed;
             lock (connections)
             {
-                removed = connections.Remove(Context.ConnectionId);
+                removed = connections.Remove(this.Context.ConnectionId);
             }
 
             if (!removed)
                 continue;
 
-            await BroadcastChatSize(chatId);
+            await this.BroadcastChatSize(chatId);
         }
 
         await base.OnDisconnectedAsync(exception);
@@ -68,11 +68,11 @@ public class ChatHub : Hub
 
     private async Task BroadcastChatSize(string chatId)
     {
-        var count = Chats.TryGetValue(chatId, out var connections)
+        var count = _chats.TryGetValue(chatId, out var connections)
             ? connections.Count
             : 0;
 
-        await Clients.Group(chatId)
+        await this.Clients.Group(chatId)
             .SendAsync("ChatSizeUpdated", count);
     }
 }

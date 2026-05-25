@@ -15,33 +15,33 @@ public class QueueHub : Hub
 
     public override async Task OnConnectedAsync()
     {
-        var httpCtx = Context.GetHttpContext();
+        var httpCtx = this.Context.GetHttpContext();
         if (httpCtx is null
             || !httpCtx.Request.Query.TryGetValue("name", out var nameValues)
             || nameValues.Count != 1)
         {
-            Context.Abort();
+            this.Context.Abort();
             return;
         }
 
         var clientName = nameValues[0];
         if (string.IsNullOrWhiteSpace(clientName))
         {
-            Context.Abort();
+            this.Context.Abort();
             return;
         }
 
         // store validated name in your own user registry
-        this.Register(Context.ConnectionId, clientName);
+        this.Register(this.Context.ConnectionId, clientName);
 
         await base.OnConnectedAsync();
     }
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        this.Remove(Context.ConnectionId);
+        this.Remove(this.Context.ConnectionId);
         await base.OnDisconnectedAsync(exception);
-        await this.BroadcastMembersChangedAsync(Context.ConnectionId);
+        await this.BroadcastMembersChangedAsync(this.Context.ConnectionId);
     }
 
     private async Task BroadcastMembersChangedAsync(string connectionId)
