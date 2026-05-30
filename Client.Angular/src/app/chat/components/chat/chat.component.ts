@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
 import { from } from 'rxjs';
 import { ReactiveComponent } from '../../../shared/components/reactive.component';
-import { Items } from "../../../tests/components/items/items";
 import { ChatService } from '../../services/chat.service';
 import { ChatRoomSelectorComponent } from "../chat-room-selector/chat-room-selector.component";
 import { ChatRoomComponent } from '../chat-room/chat-room.component';
@@ -11,7 +10,7 @@ import { ChatToolbarComponent } from "../chat-toolbar/chat-toolbar.component";
   selector: 'ttt-chat',
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
-  imports: [ChatToolbarComponent, ChatRoomComponent, ChatRoomSelectorComponent, ChatToolbarComponent, Items],
+  imports: [ChatToolbarComponent, ChatRoomComponent, ChatRoomSelectorComponent, ChatToolbarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatComponent extends ReactiveComponent implements OnInit, OnDestroy {

@@ -1,4 +1,6 @@
 export type LoginRequest = {
-    readonly username: string;
-    readonly password: string;
+  readonly username: string;
+  readonly password: string;
 }
+
+export type LoginResponse = {}

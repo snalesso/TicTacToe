@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'ttt-user-menu',
@@ -8,5 +9,5 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   imports: [],
 })
 export class UserMenuComponent {
-
+  readonly #auth = inject(AuthService);
 }

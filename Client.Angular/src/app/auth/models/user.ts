@@ -1,6 +1,11 @@
-export type UserId = number; // TODO: UserId
+export type UserId = number;
 
 export type User = {
-    readonly id: UserId;
-    readonly name: string;
+  readonly id: UserId;
+  readonly name: string;
+}
+
+export type CurrentUserInfo = {
+  readonly id: UserId;
+  readonly name: string;
 }

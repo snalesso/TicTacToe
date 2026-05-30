@@ -6,22 +6,24 @@ import { ChatService } from './chat.service';
 @Injectable({ providedIn: 'root' })
 export class ChatRoomService extends ServiceBase {
 
-    readonly #chat = inject(ChatService);
+  protected override _getPath(): string { return 'chat/room'; }
 
-    readonly #chatRoomHubConn = resource({
-        params: () => this.#chat.roomId(),
-        loader: ({ params: roomId }) => {
-            if (roomId == null)
-                return Promise.resolve(null);
-            const hubConn = new HubConnectionBuilder()
-                .withUrl(`http://localhost:5041/chat/room/${roomId}`, {
-                    skipNegotiation: true,
-                    transport: HttpTransportType.WebSockets
-                })
-                .withAutomaticReconnect()
-                .configureLogging(LogLevel.Debug)
-                .build();
-            return Promise.resolve(hubConn);
-        },
-    });
+  readonly #chat = inject(ChatService);
+
+  readonly #chatRoomHubConn = resource({
+    params: () => this.#chat.roomId(),
+    loader: ({ params: roomId }) => {
+      if (roomId == null)
+        return Promise.resolve(null);
+      const hubConn = new HubConnectionBuilder()
+        .withUrl(`http://localhost:5041/${this._getPath()}/${roomId}`, {
+          skipNegotiation: true,
+          transport: HttpTransportType.WebSockets
+        })
+        .withAutomaticReconnect()
+        .configureLogging(LogLevel.Debug)
+        .build();
+      return Promise.resolve(hubConn);
+    },
+  });
 }

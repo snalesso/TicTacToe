@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, resource } from '@angular/core';
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { catchError, firstValueFrom, of } from 'rxjs';
+import { UserMenuComponent } from "../../../../auth/components/user-menu/user-menu.component";
 import { SystemService } from '../../../../system/services/system.service';
 import { NavbarLink } from '../../models/navbar-link';
 
@@ -9,7 +10,7 @@ import { NavbarLink } from '../../models/navbar-link';
   selector: 'ttt-app-header',
   templateUrl: './app-header.component.html',
   styleUrl: './app-header.component.scss',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, UserMenuComponent],
 })
 export class AppHeaderComponent {
 

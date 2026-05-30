@@ -9,201 +9,203 @@ import { ChatRoomId, ChatRoomInfo, ChatRoomOption, ChatRoomStatus } from '../mod
 @Injectable({ providedIn: 'root' })
 export class ChatService extends ServiceBase {
 
-    readonly #chatHubConn = new HubConnectionBuilder()
-        .withUrl('http://localhost:5041/chat', {
-            skipNegotiation: true,
-            transport: HttpTransportType.WebSockets
-        })
-        .withAutomaticReconnect()
-        .configureLogging(LogLevel.Debug)
-        .build();
-    readonly #connectionStatus = signal<HubConnectionState>(HubConnectionState.Disconnected);
-    public readonly hubConnectionStatus = this.#connectionStatus.asReadonly();
-    public readonly isHubConnected = computed(() => this.hubConnectionStatus() === HubConnectionState.Connected);
+  protected override _getPath(): string { return 'chat'; }
 
-    readonly #isBusy = signal<boolean>(false);
-    public readonly isBusy = this.#isBusy.asReadonly();
+  readonly #chatHubConn = new HubConnectionBuilder()
+    .withUrl(`http://localhost:5041/${this._getPath()}`, {
+      skipNegotiation: true,
+      transport: HttpTransportType.WebSockets
+    })
+    .withAutomaticReconnect()
+    .configureLogging(LogLevel.Debug)
+    .build();
+  readonly #connectionStatus = signal<HubConnectionState>(HubConnectionState.Disconnected);
+  public readonly hubConnectionStatus = this.#connectionStatus.asReadonly();
+  public readonly isHubConnected = computed(() => this.hubConnectionStatus() === HubConnectionState.Connected);
 
-    readonly #roomId = linkedSignal<boolean, ChatRoomId | null>({
-        source: () => this.isHubConnected(),
-        computation: (isHubConnected, curr) => {
-            if (!isHubConnected)
-                return null;
-            if (curr === undefined)
-                return null;
-            return curr.value;
-        },
+  readonly #isBusy = signal<boolean>(false);
+  public readonly isBusy = this.#isBusy.asReadonly();
+
+  readonly #roomId = linkedSignal<boolean, ChatRoomId | null>({
+    source: () => this.isHubConnected(),
+    computation: (isHubConnected, curr) => {
+      if (!isHubConnected)
+        return null;
+      if (curr === undefined)
+        return null;
+      return curr.value;
+    },
+  });
+  public readonly roomId = this.#roomId.asReadonly();
+  public readonly isInRoom = computed(() => this.roomId() != null);
+
+  readonly #roomInfo = rxResource({
+    defaultValue: null,
+    params: () => this.roomId(),
+    stream: ({ params: roomId }) => {
+      if (roomId === null)
+        return of(null);
+      return this.getRoomInfo$(roomId);
+    },
+  });
+  public readonly roomInfo = this.#roomInfo.asReadonly();
+
+  readonly #roomStatus = rxResource({
+    defaultValue: null,
+    params: () => this.roomId(),
+    stream: ({ params: roomId }) => {
+      if (roomId === null)
+        return of(null);
+      return this.getRoomStatus$(roomId);
+    },
+  });
+  public readonly roomStatus = this.#roomInfo.asReadonly();
+
+  constructor() {
+    super();
+
+    this.#chatHubConn.onclose(error => {
+      this.#connectionStatus.set(this.#chatHubConn.state);
     });
-    public readonly roomId = this.#roomId.asReadonly();
-    public readonly isInRoom = computed(() => this.roomId() != null);
-
-    readonly #roomInfo = rxResource({
-        defaultValue: null,
-        params: () => this.roomId(),
-        stream: ({ params: roomId }) => {
-            if (roomId === null)
-                return of(null);
-            return this.getRoomInfo$(roomId);
-        },
+    this.#chatHubConn.onreconnected(connId => {
+      this.#connectionStatus.set(this.#chatHubConn.state);
     });
-    public readonly roomInfo = this.#roomInfo.asReadonly();
-
-    readonly #roomStatus = rxResource({
-        defaultValue: null,
-        params: () => this.roomId(),
-        stream: ({ params: roomId }) => {
-            if (roomId === null)
-                return of(null);
-            return this.getRoomStatus$(roomId);
-        },
+    this.#chatHubConn.onreconnecting(error => {
+      this.#connectionStatus.set(this.#chatHubConn.state);
     });
-    public readonly roomStatus = this.#roomInfo.asReadonly();
+    this.#chatHubConn.on('RoomInfoChanged', () => {
+      this.#roomInfo.reload();
+    });
+    this.#chatHubConn.on('RoomStatusChanged', () => {
+      this.#roomInfo.reload();
+    });
+  }
 
-    constructor() {
-        super();
+  public async connectAsync() {
 
-        this.#chatHubConn.onclose(error => {
-            this.#connectionStatus.set(this.#chatHubConn.state);
-        });
-        this.#chatHubConn.onreconnected(connId => {
-            this.#connectionStatus.set(this.#chatHubConn.state);
-        });
-        this.#chatHubConn.onreconnecting(error => {
-            this.#connectionStatus.set(this.#chatHubConn.state);
-        });
-        this.#chatHubConn.on('RoomInfoChanged', () => {
-            this.#roomInfo.reload();
-        });
-        this.#chatHubConn.on('RoomStatusChanged', () => {
-            this.#roomInfo.reload();
-        });
-    }
+    if (this.isBusy())
+      return;
 
-    public async connectAsync() {
+    this.#isBusy.set(true);
 
-        if (this.isBusy())
-            return;
+    if (this.hubConnectionStatus() !== HubConnectionState.Disconnected)
+      throw new Error('Cannot join chat: already joined.');
 
-        this.#isBusy.set(true);
+    this.#connectionStatus.set(HubConnectionState.Connecting);
 
-        if (this.hubConnectionStatus() !== HubConnectionState.Disconnected)
-            throw new Error('Cannot join chat: already joined.');
+    await this.#chatHubConn
+      .start()
+      .catch(error => {
+        this.#connectionStatus.set(this.#chatHubConn.state);
+      })
+      .then(() => {
+        this.#connectionStatus.set(this.#chatHubConn.state);
+      }).finally(() => {
+        this.#isBusy.set(false);
+      });
+  }
 
-        this.#connectionStatus.set(HubConnectionState.Connecting);
+  public async disconnectAsync() {
 
-        await this.#chatHubConn
-            .start()
-            .catch(error => {
-                this.#connectionStatus.set(this.#chatHubConn.state);
-            })
-            .then(() => {
-                this.#connectionStatus.set(this.#chatHubConn.state);
-            }).finally(() => {
-                this.#isBusy.set(false);
-            });
-    }
+    if (this.isBusy())
+      return;
 
-    public async disconnectAsync() {
+    this.#isBusy.set(true);
 
-        if (this.isBusy())
-            return;
+    if (this.hubConnectionStatus() !== HubConnectionState.Connected)
+      throw new Error('Cannot leave chat: not joined.');
 
-        this.#isBusy.set(true);
+    this.#connectionStatus.set(HubConnectionState.Disconnecting);
 
-        if (this.hubConnectionStatus() !== HubConnectionState.Connected)
-            throw new Error('Cannot leave chat: not joined.');
+    await this.#chatHubConn
+      .stop()
+      .catch(error => {
+        this.#connectionStatus.set(this.#chatHubConn.state);
+      })
+      .then(() => {
+        this.#connectionStatus.set(this.#chatHubConn.state);
+      })
+      .finally(() => {
+        this.#isBusy.set(false);
+      });
+  }
 
-        this.#connectionStatus.set(HubConnectionState.Disconnecting);
+  public async joinAsync(roomId: ChatRoomId) {
+    if (this.isBusy())
+      return;
+    this.#isBusy.set(true);
 
-        await this.#chatHubConn
-            .stop()
-            .catch(error => {
-                this.#connectionStatus.set(this.#chatHubConn.state);
-            })
-            .then(() => {
-                this.#connectionStatus.set(this.#chatHubConn.state);
-            })
-            .finally(() => {
-                this.#isBusy.set(false);
-            });
-    }
+    if (!this.isHubConnected())
+      throw new Error('Cannot join chat room: not connected.');
+    if (this.isInRoom())
+      throw new Error('Cannot join chat room: already in a room.');
 
-    public async joinAsync(roomId: ChatRoomId) {
-        if (this.isBusy())
-            return;
-        this.#isBusy.set(true);
+    await this.#chatHubConn.invoke<boolean>('Join', roomId)
+      .catch((e: Error) => {
+        console.log(e.message);
+      })
+      .then(() => {
+        this.#roomId.set(roomId);
+      })
+      .finally(() => {
+        this.#isBusy.set(false);
+      });
+  }
 
-        if (!this.isHubConnected())
-            throw new Error('Cannot join chat room: not connected.');
-        if (this.isInRoom())
-            throw new Error('Cannot join chat room: already in a room.');
+  public async leaveAsync() {
+    if (this.isBusy())
+      return;
+    this.#isBusy.set(true);
 
-        await this.#chatHubConn.invoke<boolean>('Join', roomId)
-            .catch((e: Error) => {
-                console.log(e.message);
-            })
-            .then(() => {
-                this.#roomId.set(roomId);
-            })
-            .finally(() => {
-                this.#isBusy.set(false);
-            });
-    }
+    if (!this.isHubConnected())
+      throw new Error('Cannot leave chat room: not connected to chat service.');
+    if (!this.isInRoom())
+      throw new Error('Cannot leave chat room: not in a room.');
+    const roomId = this.roomId();
+    if (!roomId)
+      throw new Error('Cannot leave chat room: room ID not valid.');
 
-    public async leaveAsync() {
-        if (this.isBusy())
-            return;
-        this.#isBusy.set(true);
+    await this.#chatHubConn.invoke<void>('Leave', roomId)
+      .catch((e: Error) => {
+        console.log(e.message);
+      })
+      .then(() => {
+        this.#roomId.set(null);
+      })
+      .finally(() => {
+        this.#isBusy.set(false);
+      });
+  }
 
-        if (!this.isHubConnected())
-            throw new Error('Cannot leave chat room: not connected to chat service.');
-        if (!this.isInRoom())
-            throw new Error('Cannot leave chat room: not in a room.');
-        const roomId = this.roomId();
-        if (!roomId)
-            throw new Error('Cannot leave chat room: room ID not valid.');
+  public refreshRoomInfo(): void {
+    this.#roomInfo.reload();
+  }
 
-        await this.#chatHubConn.invoke<void>('Leave', roomId)
-            .catch((e: Error) => {
-                console.log(e.message);
-            })
-            .then(() => {
-                this.#roomId.set(null);
-            })
-            .finally(() => {
-                this.#isBusy.set(false);
-            });
-    }
+  public getRoomInfo$(roomId: ChatRoomId): Observable<ChatRoomInfo> {
+    return this.getAllRooms$().pipe(map(rooms => {
+      const room = rooms.find(r => r.id === roomId);
+      if (room == null)
+        throw new Error(`Could not find room with ID: ${roomId}.`);
+      return ({
+        id: room.id,
+        name: room.name,
+        description: room.description
+      } as ChatRoomInfo);
+    }))
+  }
 
-    public refreshRoomInfo(): void {
-        this.#roomInfo.reload();
-    }
+  public getRoomStatus$(roomId: ChatRoomId): Observable<ChatRoomStatus> {
+    return of({
+      id: roomId,
+      userIds: [1, 4465, 3, 765, 2181]
+    } as ChatRoomStatus);
+  }
 
-    public getRoomInfo$(roomId: ChatRoomId): Observable<ChatRoomInfo> {
-        return this.getAllRooms$().pipe(map(rooms => {
-            const room = rooms.find(r => r.id === roomId);
-            if (room == null)
-                throw new Error(`Could not find room with ID: ${roomId}.`);
-            return ({
-                id: room.id,
-                name: room.name,
-                description: room.description
-            } as ChatRoomInfo);
-        }))
-    }
+  public getAllRooms$() {
+    return this._http.get<ReadonlyArray<ChatRoomOption>>(this._composeEndpoint());
+  }
 
-    public getRoomStatus$(roomId: ChatRoomId): Observable<ChatRoomStatus> {
-        return of({
-            id: roomId,
-            userIds: [1, 4465, 3, 765, 2181]
-        } as ChatRoomStatus);
-    }
-
-    public getAllRooms$() {
-        return this._http.get<ReadonlyArray<ChatRoomOption>>(this._composeEndpoint('chat/rooms'));
-    }
-
-    public getRoomMessages$(roomId: ChatRoomId) {
-        return this._http.get<ReadonlyArray<ChatMessage>>(this._composeEndpoint(`chat/rooms/${roomId}/messages`));
-    }
+  public getRoomMessages$(roomId: ChatRoomId) {
+    return this._http.get<ReadonlyArray<ChatMessage>>(this._composeEndpoint(`${roomId}/messages`));
+  }
 }

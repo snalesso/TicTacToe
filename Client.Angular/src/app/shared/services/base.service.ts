@@ -7,10 +7,11 @@ const PROTOCOL: 'http' | 'https' = 'https';
 @Injectable()
 export abstract class ServiceBase {
 
-    protected readonly _http = inject(HttpClient);
-    protected readonly _hostAddress = `${PROTOCOL}://localhost:${PORT}`;
+  protected readonly _http = inject(HttpClient);
+  protected readonly _hostAddress = `${PROTOCOL}://localhost:${PORT}`;
 
-    protected _composeEndpoint(address: string) {
-        return `${this._hostAddress}/${address}`;
-    }
+  protected abstract _getPath(): string;
+  protected _composeEndpoint(address: string = '') {
+    return [this._hostAddress, address, this._getPath()].join('/');
+  }
 }
