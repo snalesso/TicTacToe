@@ -9,6 +9,8 @@ public class ChatRoomMessagesProvider(TicTacToePgsDbContext db)
         => await db.ChatMessages
             .AsNoTracking()
             .Where(x => x.ChatRoomId == roomId)
+            // OrderByDescending+Take fetches the last N messages efficiently (newest-first),  then OrderBy re-applies ascending order for display.
+            // Both sorts are intentional — do not remove either.
             .OrderByDescending(x => x.Timestamp)
             .Take(40)
             .OrderBy(x => x.Timestamp)

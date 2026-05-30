@@ -13,7 +13,9 @@ public class ChatMessage
     public const int TEXT_MAX_LENGTH = 360;
     public required string Text { get; init; }
 
-    public required DateTime Timestamp { get; init; }
+    // DateTimeOffset instead of DateTime — PostgreSQL 'timestamp with time zone' stores UTC;
+    // Npgsql 6+ enforces UTC-only DateTime, making DateTimeOffset the explicit, safer contract.
+    public required DateTimeOffset Timestamp { get; init; }
 
     #region navigation properties
 

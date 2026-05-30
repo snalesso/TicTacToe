@@ -1,7 +1,7 @@
 //using Microsoft.EntityFrameworkCore;
 //using Microsoft.EntityFrameworkCore.Design;
 
-//namespace TicTacToe.Postgres;
+//namespace TicTacToe.Pgs;
 
 //public class TicTacToePgsDbContextFactory : IDesignTimeDbContextFactory<TicTacToePgsDbContext>
 //{

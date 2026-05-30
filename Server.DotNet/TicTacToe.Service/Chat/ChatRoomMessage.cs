@@ -3,5 +3,6 @@
 public record ChatRoomMessage(
     long Id,
     long AuthorId,
-    DateTime Timestamp,
+    // Aligned with ChatMessage.Timestamp — DateTimeOffset is the explicit UTC-safe contract
+    DateTimeOffset Timestamp,
     string Text);

@@ -25,6 +25,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
+    <!-- Provides UseSnakeCaseNamingConventions() to align table/column names with PostgreSQL snake_case convention -->
+    <PackageReference Include="EFCore.NamingConventions" Version="10.0.1" />
   </ItemGroup>
 
 </Project>

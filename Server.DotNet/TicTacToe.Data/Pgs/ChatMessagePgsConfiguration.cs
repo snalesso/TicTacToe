@@ -37,5 +37,9 @@ public class ChatMessagePgsConfiguration : IEntityTypeConfiguration<ChatMessage>
             .Property(x => x.Timestamp)
             .IsRequired()
             .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+        // Composite index covers the (ChatRoomId, Timestamp) filter+order pattern used in messages reading queries
+        // significantly more efficient than the FK-generated single-column ChatRoomId index alone.
+        builder.HasIndex(x => new { x.ChatRoomId, x.Timestamp });
     }
 }

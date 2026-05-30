@@ -13,10 +13,16 @@ builderServices
     //    var connectionString = builder.Configuration.GetConnectionString(TicTacToeSqliteDbContext.DefaultSqliteConnectionStringKey);
     //    options.UseSqlite(connectionString);
     //})
-    .AddDbContext<TicTacToePgsDbContext>(options =>
+    // DbContextPool reuses context instances across requests instead of allocating new ones — significant throughput gain
+    .AddDbContextPool<TicTacToePgsDbContext>(options =>
     {
         var connectionString = builder.Configuration.GetConnectionString(TicTacToePgsDbContext.DefaultPgsConnectionStringKey);
-        options.UseNpgsql(connectionString);
+        options
+            .UseNpgsql(connectionString, npgsql =>
+                // Retries automatically on transient PostgreSQL failures (network blips, connection pool exhaustion)
+                npgsql.EnableRetryOnFailure(maxRetryCount: 5))
+            // Maps all table/column names to snake_case — PostgreSQL convention, avoids quoting issues in raw SQL.
+            .UseSnakeCaseNamingConvention();
     })
     .RegisterServices();
 

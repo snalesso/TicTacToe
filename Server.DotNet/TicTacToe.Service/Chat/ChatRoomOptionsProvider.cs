@@ -8,13 +8,13 @@ public class ChatRoomOptionProvider(TicTacToePgsDbContext db)
     public async Task<IReadOnlyList<ChatRoomOption>> GetAllAsync(CancellationToken ct = default)
         => await db.ChatRooms
             .AsNoTracking()
-            .Select(x => new ChatRoomOption(x.Id, x.Name, x.Description))
+            .Select(x => new ChatRoomOption(x.Id, x.Name, x.Description, true)) // CS0854: expression trees cannot use optional args; must be explicit
             .ToListAsync(ct);
 
     public async Task<ChatRoomOption?> GetByIdAsync(long id, CancellationToken ct = default)
         => await db.ChatRooms
             .AsNoTracking()
             .Where(x => x.Id == id)
-            .Select(x => new ChatRoomOption(x.Id, x.Name, x.Description))
+            .Select(x => new ChatRoomOption(x.Id, x.Name, x.Description, true)) // CS0854: expression trees cannot use optional args; must be explicit
             .FirstOrDefaultAsync(ct);
 }

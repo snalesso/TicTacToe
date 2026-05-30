@@ -20,7 +20,10 @@ public class TicTacToePgsDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.ApplyConfiguration(new ChatMessagePgsConfiguration());
+        // Scans the assembly for all IEntityTypeConfiguration<T> implementations automatically,
+        // picking up ChatRoom and User configurations added in Improvement 5
+        // TODO: consider registering configurations explicitly if startup performance becomes a concern
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(TicTacToePgsDbContext).Assembly);
     }
 
     //public static string GetSqlite3DbFileName()
