@@ -1,12 +1,13 @@
 /// <reference types="@angular/localize" />
 
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { enableProdMode, importProvidersFrom, inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app/app';
+import { authInterceptor } from './app/auth/interceptors/auth.interceptor';
 import { CardsGameComponent } from './app/cards/components/cards-game/cards-game.component';
 import { PageNotFoundComponent } from './app/core/layout/pages/page-not-found/page-not-found';
 import { GameComponent } from './app/game/pages/game/game.component';
@@ -20,7 +21,7 @@ if (APP_CONFIG.production) {
 bootstrapApplication(AppComponent, {
   providers: [
     provideZoneChangeDetection(),
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withInterceptors([authInterceptor])),
     provideTranslateService({
       loader: provideTranslateHttpLoader({
         prefix: './assets/i18n/',

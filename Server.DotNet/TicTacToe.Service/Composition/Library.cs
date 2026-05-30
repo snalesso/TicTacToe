@@ -9,6 +9,7 @@ public static class Library
     public static IServiceCollection RegisterServices(this IServiceCollection services)
         => services
             .AddScoped<AuthService>()
+            .AddScoped<JwtTokenService>()
             .AddScoped<ChatRoomOptionProvider>()
             .AddScoped<ChatRoomMessagesProvider>();
 }

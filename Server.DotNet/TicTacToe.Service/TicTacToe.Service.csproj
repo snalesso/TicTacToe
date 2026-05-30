@@ -1,17 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<RootNamespace>TicTacToe</RootNamespace>
-	</PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>TicTacToe</RootNamespace>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<Compile Remove="Queue\**" />
-		<EmbeddedResource Remove="Queue\**" />
-		<None Remove="Queue\**" />
-	</ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Queue\**" />
+    <EmbeddedResource Remove="Queue\**" />
+    <None Remove="Queue\**" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\TicTacToe.Data\TicTacToe.Data.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TicTacToe.Data\TicTacToe.Data.csproj" />
+  </ItemGroup>
 
 </Project>

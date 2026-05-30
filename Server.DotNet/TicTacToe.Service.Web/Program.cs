@@ -1,4 +1,8 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using TicTacToe.Auth;
 using TicTacToe.Chat;
 using TicTacToe.Composition;
 using TicTacToe.Pgs;
@@ -26,6 +30,27 @@ builderServices
     })
     .RegisterServices();
 
+var jwtSection = builder.Configuration.GetSection("Jwt");
+var jwtSecret = jwtSection["Secret"] ?? throw new InvalidOperationException("JWT secret is not configured.");
+
+builderServices
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSection["Issuer"],
+            ValidAudience = jwtSection["Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+
+builderServices.AddAuthorization();
 builderServices.AddSignalR();
 builderServices.AddControllers();
 builderServices.AddCors(options =>
@@ -40,9 +65,11 @@ builderServices.AddCors(options =>
 
 var app = builder.Build();
 
-// Order is critical: CORS -> Routing -> MapHub
+// Order is critical: CORS -> Authentication -> Authorization -> Routing -> MapHub
 app.UseCors("CorsPolicy");
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapHub<ChatHub>("/chat");
 app.MapControllers();
 
