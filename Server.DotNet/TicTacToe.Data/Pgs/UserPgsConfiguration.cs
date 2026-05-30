@@ -15,5 +15,7 @@ public class UserPgsConfiguration : IEntityTypeConfiguration<User>
         // Unique constraint ensures usernames are distinct at the database level, not just enforced in application code.
         //
         builder.HasIndex(x => x.Username).IsUnique();
+        // Password stored in clear text per design decision — no hashing applied.
+        builder.Property(x => x.Password).IsRequired().HasMaxLength(100);
     }
 }
