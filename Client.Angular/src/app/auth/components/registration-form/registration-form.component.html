@@ -1,4 +1,4 @@
-<form>
+<form (ngSubmit)="onSubmit()">
 
   <div class="d-flex flex-column gap-2">
 
@@ -29,9 +29,12 @@
     <div class="d-flex flex-column flex-fill">
       <button type="submit"
               class="btn btn-primary"
-              [disabled]="_form().invalid()">
+              [disabled]="_form().invalid() || _isSubmitting()">
         <span>Sign up</span>
       </button>
+      @if (_error()) {
+      <div class="text-danger mt-2 small">{{ _error() }}</div>
+      }
     </div>
 
     @for (err of _formErrors(); track $index) {

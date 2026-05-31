@@ -24,7 +24,12 @@ export class AuthService extends ServiceBase {
   }
 
   public register(req: RegistrationRequest) {
-    return this._http.post<RegistrationResponse>(this._composeEndpoint(`register`), req);
+    return this._http.post<RegistrationResponse>(this._composeEndpoint(`register`), req).pipe(
+      tap(response => {
+        localStorage.setItem(JWT_STORAGE_KEY, response.token);
+        this._currentUser.set({ id: response.id, name: response.username });
+      })
+    );
   }
 
   public login(req: LoginRequest) {

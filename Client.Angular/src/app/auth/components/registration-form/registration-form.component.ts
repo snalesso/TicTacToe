@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { form, FormField, required } from '@angular/forms/signals';
+import { Router } from '@angular/router';
 import { RegistrationRequest } from '../../models/registration';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'ttt-registration-form',
@@ -10,6 +12,9 @@ import { RegistrationRequest } from '../../models/registration';
   imports: [FormField],
 })
 export class RegistrationFormComponent {
+
+  private readonly _authService = inject(AuthService);
+  private readonly _router = inject(Router);
 
   protected readonly _formData = signal<RegistrationRequest>({
     username: '',
@@ -25,7 +30,6 @@ export class RegistrationFormComponent {
 
   protected readonly _formErrors = computed(() => {
     const form = this._form();
-    const errors = form.errors();
     const errorSummaries = form.errorSummary();
     const x = errorSummaries.filter(e => e.formField?.state().dirty && !!e.message).map(e => e.message);
     return x;
@@ -38,4 +42,24 @@ export class RegistrationFormComponent {
     // }
     // return errorMessages;
   });
+
+  protected readonly _error = signal<string | null>(null);
+  protected readonly _isSubmitting = signal(false);
+
+  protected onSubmit(): void {
+    if (this._form().invalid()) return;
+
+    this._error.set(null);
+    this._isSubmitting.set(true);
+
+    this._authService.register(this._formData()).subscribe({
+      next: () => this._router.navigate(['/game']),
+      error: (err: { status?: number }) => {
+        this._error.set(err?.status === 409
+          ? 'Username is already taken.'
+          : 'Unable to create account right now.');
+        this._isSubmitting.set(false);
+      }
+    });
+  }
 }
